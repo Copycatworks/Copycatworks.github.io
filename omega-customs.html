@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>OS Custom Game Modder</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+
+    <style>
+        html,
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            font-size: 30px;
+            font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            color: #1d263b;
+            background-color: #998fe7;
+            background: linear-gradient(#a48ad7, #998fe7);
+            height: 100%;
+            width: 100%;
+        }
+
+        input[type=text] {
+            font-size: 16px;
+            width: 250px;
+            padding: 12px 12px;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        select {
+            font-size: 16px;
+            width: 200px;
+            padding: 12px 20px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+
+            background-color: white;
+        }
+
+        input {
+            background-color: white;
+        }
+
+        button {
+            text-decoration: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .container {
+            background-color: #efefef;
+            border: #bac9e4;
+            border-style: solid;
+            border-width: 3px;
+            border-radius: 10px;
+        }
+
+        .centerpoint {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .dropbox {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+
+            background-color: #e1e3ea;
+
+            margin-top: 15px;
+            padding: 30px;
+            border: 3px dotted #13abec;
+        }
+
+        .ready {
+            background-color: #4167e9;
+        }
+
+        .waiting {
+            background-color: rgb(102, 80, 17);
+        }
+
+        .finished {
+            background-color: #43873d;
+        }
+
+        .unready {
+            background-color: rgb(82, 22, 22);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(14, 65px);
+            grid-gap: 3px;
+            padding: 0px;
+        }
+
+        .grid-item {
+            width: 65px;
+            height: 65px;
+            cursor: pointer;
+            border-radius: 15px;
+        }
+
+        .grid-item.selectedAwakening {
+            background-color: #13abec;
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        a:link {
+            color: #60c5ff;
+            background-color: transparent;
+            text-decoration: none;
+        }
+
+        a:visited {
+            color: #60c5ff;
+            background-color: transparent;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #c485ff;
+            background-color: transparent;
+            text-decoration: underline;
+        }
+
+        a:active {
+            color: #c485ff;
+            background-color: transparent;
+            text-decoration: underline;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container" style="padding:10px;">
+
+        <div class="centerpoint">
+        <div id="titleHeader" style="font-size:32px; color:#0a2176;"><b>OMEGA STRIKERS CUSTOM GAME MODDER</b></div>
+        </div>
+        <hr style="color:#bcbec4; margin:5px; margin-top: 10px;"></hr>
+
+        <div id="authentication" style="margin:15px;">
+
+            <div class="centerpoint">
+            <div style="font-size:20px; width:560px; text-align:center; word-wrap:normal; color:#34394b; margin-bottom:10px;">Launch Omega Strikers on this computer, create a custom game lobby, then provide the required files to continue.</div>
+            </div>
+
+            <div style="padding:5px">
+            <div style="font-size:26px;"><b>Files can be found here:</b></div>
+            <div id="fileLocation" style="font-size:22px;">%USERPROFILE%\AppData\Local\OmegaStrikers</div>
+            <div id="fileLocation2" style="font-size:22px;">%USERPROFILE%\AppData\Local\OmegaStrikers\Saved\Logs</div>
+            </div>
+
+            <div class="dropbox" ondragenter="dragEnterHandler(event);" ondragover="dragOverHandler(event);"
+                ondragleave="dragLeaveHandler(event);" ondrop="dropHandler(event);">
+
+                <div style="font-size:26px;"><b>Drag and drop Identity.json file here</b></div>
+                <input id="fileinput" type="file" hidden accept=".json" style="display:none;">
+
+                <button style="margin:10px;" id="choosefile" class="choosefile ready">or Choose File</button>
+            </div>
+
+            <div class="dropbox" ondragenter="dragEnterHandler2(event);" ondragover="dragOverHandler2(event);"
+                ondragleave="dragLeaveHandler2(event);" ondrop="dropHandler2(event);">
+
+                <div style="font-size:26px;"><b>Drag and drop OmegaStrikers.log file here</b></div>
+                <input id="fileinput2" type="file" hidden accept=".log" style="display:none;">
+
+                <button id="choosefile2" style="margin:10px;" class="choosefile ready">or Choose File</button>
+            </div>
+
+            <div hidden>
+                <input type="text" id="jwt" placeholder="jwt">
+                <input type="text" id="refreshToken" placeholder="refreshToken">
+                <input type="text" id="lobbyId" placeholder="lobbyId">
+            </div>
+
+        </div>
+
+        <div id="settings" style="margin:15px;" hidden>
+            <div class="centerpoint">
+                <button id="poster" style="font-size:32px; margin-bottom:10px;" class="ready">APPLY LOBBY SETTINGS</button>
+                <div style="font-size:32px; color:#0a2176;"><b>MAP & GAME MODE</b></div>
+
+                <div>
+                    <select style="width:280px; text-align:center;" name="map" id="map">
+                    <!-- populated by script -->
+                    </select>
+
+                    <select style="width:280px; text-align:center;" name="mode" id="mode">
+                        <option value="GFD_Ranked">NORMAL</option>
+                        <option value="GFD_QuickPlay">QUICKPLAY</option>
+                        <option value="GFD_Practice">PRACTICE</option>
+                        <option value="GFD_RGM">TEA TIME TUSSEL</option>
+                    </select>
+                </div>
+
+                <div style="display:flex; background-color:#e1e3ea; border-style:solid; border-color:#bcbec4;">
+                    <div style="font-size:26px; color:#0a2176; align-self:center; margin-bottom:1px; margin-left:5px;"><b>SETS TO WIN MATCH:</b></div>
+                    <input type="text" maxlength="3" style="width:55px; margin-left: 10px; margin-right:10px; border-radius:0px; text-align:center;" id="sets" placeholder="3" value="3">
+                    <div style="font-size:26px; color:#0a2176; align-self:center; margin-bottom:1px; "><b>GOALS PER SET:</b></div>
+                    <input type="text" maxlength="3" style="width:55px; margin-left: 10px; border-radius:0px; text-align:center;" id="points" placeholder="3" value="3">
+                </div>
+
+                <div style="font-size:32px; color:#0a2176; margin-top:10px;"><b>DRAFT SETTINGS</b></div>
+                <div>
+                    <select style="width:280px; text-align:center;" name="mirrors" id="mirrors">
+                        <option value="NoDuplicatesInGame">NO MIRRORS</option>
+                        <option value="NoDuplicatesOnTeam">MIRRORS</option>
+                        <option value="AllowDuplicates">FULL DUPLICATES</option>
+                    </select>
+                    <select style="width:280px; text-align:center;" name="draft" id="draft">
+                        <option value='"characterSelectionMode":"TeamPick","bansEnabled":"Enabled"'>CLASSIC DRAFT & BANS</option>
+                        <option value='"characterSelectionMode":"TeamPick","bansEnabled":"Disabled"'>CLASSIC DRAFT & NO BANS</option>
+                        <option value='"characterSelectionMode":"SnakeDraft","bansEnabled":"Enabled"'>SNAKE DRAFT & BANS</option>
+                        <option value='"characterSelectionMode":"SnakeDraft","bansEnabled":"Disabled"'>SNAKE DRAFT & NO BANS</option>
+                    </select>
+                </div>
+
+                <div id="startingAwakeningsHeader" style="font-size:32px; color:#0a2176; margin-bottom:5px;"><b>STARTING AWAKENINGS</b> (CHOOSE AT START)</div>
+                <div class="grid-container" id="gridContainer">
+                <!-- populated by script -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+         const maps = [
+            { GMD: "GMD_AhtenCity", GTD: "GTD_AhtenCity", displayName: "AHTEN CITY", image: '' },
+            { GMD: "GMD_AtlasLab", GTD: "GTD_Lab", displayName: "ATLAS'S LAB", image: '' },
+            { GMD: "GMD_DigitalWorld", GTD: "GTD_DigitalWorld", displayName: "AI.MI'S APP", image: '' },
+            { GMD: "GMD_MusicStage", GTD: "GTD_MusicStage", displayName: "DEMON DAIS", image: '' },
+            { GMD: "GMD_NightMarket", GTD: "GTD_NightMarket", displayName: "NIGHT MARKET", image: '' },
+            { GMD: "GMD_OniVillage", GTD: "GTD_OniVillage", displayName: "ONI VILLAGE", image: '' },
+            { GMD: "GMD_SummerSplash", GTD: "GTD_SummerSplash", displayName: "INKY'S SPLASH ZONE", image: '' },
+            { GMD: "GMD_Obscura", GTD: "GTD_Obscura", displayName: "GATES OF OBSCURA", image: '' },
+            { GMD: "GMD_Drums", GTD: "GTD_Drums", displayName: "TAIKO TEMPLE", image: '' },
+            { GMD: "GMD_ClarionCorp", GTD: "GTD_ClarionCorpDefault", displayName: "CLARION TEST CHAMBER", image: '' },
+            { GMD: "GMD_ClarionCorp", GTD: "GTD_ClarionCorpProjectXeno", displayName: "CLARION PROJECT XENO", image: '' },
+            { GMD: "GMD_ClarionCorp", GTD: "GTD_ClarionCorpProjectObscura", displayName: "CLARION PROJECT OBSCURA", image: '' },
+            { GMD: "GMD_ClarionCorp", GTD: "GTD_ClarionCorpProjectExpanse", displayName: "CLARION PROJECT EXPANSE", image: '' },
+            { GMD: "GMD_ClarionCorp", GTD: "GTD_ClarionCorpProjectThunderstruck", displayName: "CLARION PROJECT BASS DROP", image: '' },
+            { GMD: "GMD_ClarionCorp", GTD: "GTD_ClarionCorpProjectMaelstrom", displayName: "CLARION PROJECT MAELSTROM", image: '' },
+            { GMD: "GMD_RGM", GTD: "GTD_BackToBackXL", displayName: "BACK TO BACK", image: '' },
+            { GMD: "GMD_RGM", GTD: "GTD_AboutFaceXL", displayName: "ABOUT FACE", image: '' },
+            { GMD: "GMD_RGM", GTD: "GTD_CornerGoalXL", displayName: "CORNER POCKET", image: '' },
+            { GMD: "GMD_RGM", GTD: "GTD_FlippedXL", displayName: "MAP FLIPPED", image: '' }
+        ];
+
+        const selectMap = document.getElementById('map');
+
+        maps.forEach(map => {
+            const option = document.createElement('option');
+            option.value = map.displayName;
+            option.textContent = map.displayName;
+            selectMap.appendChild(option);
+        });
+
+        const selectMode = document.getElementById('mode');
+
+        selectMode.addEventListener("change", function() {
+            const startingAwakeningsHeader = document.getElementById("startingAwakeningsHeader");
+            if(this.value == "GFD_Ranked")
+            {
+                startingAwakeningsHeader.innerHTML = "<b>STARTING AWAKENINGS</b> (CHOOSE AT START)";
+            }
+            else if(this.value == "GFD_QuickPlay" || this.value == "GFD_RGM")
+            {
+                startingAwakeningsHeader.innerHTML = "<b>STARTING AWAKENINGS</b> (GIVEN TO EVERYONE AT START)";
+            }
+            else if(this.value == "GFD_Practice")
+            {
+                startingAwakeningsHeader.innerHTML = "<b>STARTING AWAKENINGS</b> (DOES NOT APPLY TO PRACTICE)";
+            }
+        });
+
+        const awakenings = [
+            { awakeningID: "TD_CreationSizeLifeTime", displayName: "Timeless Creator", image: 'https://omegastrikers.wiki.gg/images/thumb/4/4b/TimelessCreator.png/100px-TimelessCreator.png' },
+            { awakeningID: "TD_ShrinkSelfGrowAllies", displayName: "Among Titans", image: 'https://omegastrikers.wiki.gg/images/thumb/7/7b/Among_Titans.png/100px-Among_Titans.png' },
+            { awakeningID: "TD_StaggerPowerConversion", displayName: "Bulk Up", image: 'https://omegastrikers.wiki.gg/images/thumb/9/9a/BulkUp.png/100px-BulkUp.png' },
+            { awakeningID: "TD_Revive", displayName: "Recovery Drone", image: 'https://omegastrikers.wiki.gg/images/thumb/0/0d/Recovery_Drone.png/100px-Recovery_Drone.png' },
+            { awakeningID: "TD_StackingSize", displayName: "Rampage", image: 'https://omegastrikers.wiki.gg/images/thumb/e/e4/Rampage.png/100px-Rampage.png' },
+            { awakeningID: "TD_SizePowerConversion", displayName: "Might of the Colossus", image: 'https://omegastrikers.wiki.gg/images/thumb/9/95/Might_Of_The_Colossus.png/100px-Might_Of_The_Colossus.png' },
+            { awakeningID: "TD_ComboATarget", displayName: "One-Two-Punch", image: 'https://omegastrikers.wiki.gg/images/thumb/7/7b/OneTwoPunch.png/100px-OneTwoPunch.png' },
+            { awakeningID: "TD_StaggerSpeedConversion", displayName: "Peak Performance", image: 'https://omegastrikers.wiki.gg/images/thumb/9/98/Peak_Performance.png/100px-Peak_Performance.png' },
+            { awakeningID: "TD_PrimaryEcho", displayName: "Primetime", image: 'https://omegastrikers.wiki.gg/images/thumb/b/b1/PrimeTime.png/100px-PrimeTime.png' },
+            { awakeningID: "TD_KOKing", displayName: "Prize Fighter", image: 'https://omegastrikers.wiki.gg/images/thumb/2/2f/PrizeFighter.png/100px-PrizeFighter.png' },
+            { awakeningID: "TD_StrikeCooldownReduction", displayName: "Quick Strikes", image: 'https://omegastrikers.wiki.gg/images/thumb/3/33/QuickStrike.png/100px-QuickStrike.png' },
+            { awakeningID: "TD_Reverberation", displayName: "Reverberation", image: 'https://omegastrikers.wiki.gg/images/thumb/a/a4/Reverberation.png/100px-Reverberation.png' },
+            { awakeningID: "TD_HitsIncreaseSpeedAndPower", displayName: "Stacks on Stacks", image: 'https://omegastrikers.wiki.gg/images/thumb/2/27/StacksOnStacks.png/100px-StacksOnStacks.png' },
+            { awakeningID: "TD_HitEnemyBurnThem", displayName: "Stinger", image: 'https://omegastrikers.wiki.gg/images/thumb/b/b6/Stinger.png/100px-Stinger.png' },
+            { awakeningID: "TD_StrikeRockTowardsAllies", displayName: "Team Player", image: 'https://omegastrikers.wiki.gg/images/thumb/c/c9/Team_Player.png/100px-Team_Player.png' },
+            { awakeningID: "TD_ResistFirstHit", displayName: "Unstoppable", image: 'https://omegastrikers.wiki.gg/images/thumb/e/eb/Unstoppable.png/100px-Unstoppable.png' },
+            { awakeningID: "TD_EmpoweredHitsBuff", displayName: "Specialized Training", image: 'https://omegastrikers.wiki.gg/images/thumb/4/42/Specialized_Training.png/100px-Specialized_Training.png' },
+            { awakeningID: "TD_MovementAbilityCharges", displayName: "Twin Drive", image: 'https://omegastrikers.wiki.gg/images/thumb/2/2d/TwinDrive.png/100px-TwinDrive.png' },
+            { awakeningID: "TD_PrimaryAbilityCooldownReduction", displayName: "Rapid Fire", image: 'https://omegastrikers.wiki.gg/images/thumb/7/78/RapidFire.png/100px-RapidFire.png' },
+            { awakeningID: "TD_DistancePower", displayName: "Deadeye", image: 'https://omegastrikers.wiki.gg/images/thumb/0/07/DeadEye.png/100px-DeadEye.png' },
+            { awakeningID: "TD_FasterProjectiles", displayName: "Missile Propulsion", image: 'https://omegastrikers.wiki.gg/images/thumb/8/80/Missile_Propulsion.png/100px-Missile_Propulsion.png' },
+            { awakeningID: "TD_FasterProjectiles2", displayName: "Aerials", image: 'https://omegastrikers.wiki.gg/images/thumb/2/20/Aerials.png/100px-Aerials.png' },
+            { awakeningID: "TD_FasterDashes3", displayName: "Explosive Entrance", image: 'https://omegastrikers.wiki.gg/images/thumb/3/33/Explosive_Entrance.png/100px-Explosive_Entrance.png' },
+            { awakeningID: "TD_FasterDashes2", displayName: "Chronoboost", image: 'https://omegastrikers.wiki.gg/images/thumb/6/61/Chronoboost.png/100px-Chronoboost.png' },
+            { awakeningID: "TD_BuffAndDebuffDuration", displayName: "Cast to Last", image: 'https://omegastrikers.wiki.gg/images/thumb/0/00/CastToLast.png/100px-CastToLast.png' },
+            { awakeningID: "TD_FasterProjectiles3", displayName: "Siege Machine", image: 'https://omegastrikers.wiki.gg/images/thumb/1/1c/Siege_Machine.png/100px-Siege_Machine.png' },
+            { awakeningID: "TD_SpecialCooldownAfterRounds", displayName: "Extra Special", image: 'https://omegastrikers.wiki.gg/images/thumb/f/f8/ExtraSpecial.png/100px-ExtraSpecial.png' },
+            { awakeningID: "TD_CreationSize", displayName: "Monumentalist", image: 'https://omegastrikers.wiki.gg/images/thumb/3/37/Monumentalist.png/100px-Monumentalist.png' },
+            { awakeningID: "TD_TakeDownReduceCooldowns", displayName: "Adrenaline Rush", image: 'https://omegastrikers.wiki.gg/images/thumb/4/48/AdrenalineRush.png/100px-AdrenalineRush.png' },
+            { awakeningID: "TD_SizeIncrease", displayName: "Built Different", image: 'https://omegastrikers.wiki.gg/images/thumb/2/26/BuiltDifferent.png/100px-BuiltDifferent.png' },
+            { awakeningID: "TD_SizeIncrease2", displayName: "Big Fish", image: 'https://omegastrikers.wiki.gg/images/thumb/a/a9/BigFish.png/100px-BigFish.png' },
+            { awakeningID: "TD_EnergyCatalyst", displayName: "Catalyst", image: 'https://omegastrikers.wiki.gg/images/thumb/b/b2/Catalyst.png/100px-Catalyst.png' },
+            { awakeningID: "TD_EnergyConversion", displayName: "Egoist", image: 'https://omegastrikers.wiki.gg/images/thumb/5/52/Egoist.png/100px-Egoist.png' },
+            { awakeningID: "TD_HitSpeed", displayName: "Fight or Flight", image: 'https://omegastrikers.wiki.gg/images/thumb/2/2f/FightOrFlight.png/100px-FightOrFlight.png' },
+            { awakeningID: "TD_EnergyDischarge", displayName: "Fire Up", image: 'https://omegastrikers.wiki.gg/images/thumb/1/19/FireUp.png/100px-FireUp.png' },
+            { awakeningID: "TD_AvoidDamageHitHarder", displayName: "Glass Cannon", image: 'https://omegastrikers.wiki.gg/images/thumb/e/e9/GlassCannon.png/100px-GlassCannon.png' },
+            { awakeningID: "TD_EnhancedOrbsSpeed", displayName: "Orb Dancer", image: 'https://omegastrikers.wiki.gg/images/thumb/7/77/OrbDancer.png/100px-OrbDancer.png' },
+            { awakeningID: "TD_EnhancedOrbsCooldown", displayName: "Orb Ponderer", image: 'https://omegastrikers.wiki.gg/images/thumb/3/3a/OrbPonderer.png/100px-OrbPonderer.png' },
+            { awakeningID: "TD_OrbShare", displayName: "Orb Replicator", image: 'https://omegastrikers.wiki.gg/images/thumb/8/80/OrbReplicator.png/100px-OrbReplicator.png' },
+            { awakeningID: "TD_HitsReduceCooldowns", displayName: "Perfect Form", image: 'https://omegastrikers.wiki.gg/images/thumb/8/8d/PerfectForm.png/100px-PerfectForm.png' },
+            { awakeningID: "TD_BlessingSpeed", displayName: "Spark of Agility", image: 'https://omegastrikers.wiki.gg/images/thumb/7/70/SparkofAgility.png/100px-SparkofAgility.png' },
+            { awakeningID: "TD_BlessingCooldownRate", displayName: "Spark of Focus", image: 'https://omegastrikers.wiki.gg/images/thumb/c/c4/SparkofFocus.png/100px-SparkofFocus.png' },
+            { awakeningID: "TD_BlessingShare", displayName: "Spark of Leadership", image: 'https://omegastrikers.wiki.gg/images/thumb/6/60/Spark_of_Leadership.png/100px-Spark_of_Leadership.png' },
+            { awakeningID: "TD_BlessingMaxStagger", displayName: "Spark of Resilience", image: 'https://omegastrikers.wiki.gg/images/thumb/c/cc/SparkofResilience.png/100px-SparkofResilience.png' },
+            { awakeningID: "TD_BlessingPower", displayName: "Spark of Strength", image: 'https://omegastrikers.wiki.gg/images/thumb/d/d2/SparkofStrength.png/100px-SparkofStrength.png' },
+            { awakeningID: "TD_IncreasedSpeedWithStagger", displayName: "Stagger Swagger", image: 'https://omegastrikers.wiki.gg/images/thumb/0/04/StaggerSwagger.png/100px-StaggerSwagger.png' },
+            { awakeningID: "TD_FasterDashes", displayName: "Super Surge", image: 'https://omegastrikers.wiki.gg/images/thumb/8/81/SuperSurge.png/100px-SuperSurge.png' },
+            { awakeningID: "TD_HitAnythingRestoreStagger", displayName: "Tempo Swing", image: 'https://omegastrikers.wiki.gg/images/thumb/1/17/TempoSwings.png/100px-TempoSwings.png' },
+            { awakeningID: "TD_BarrierBuff", displayName: "Demolitionist", image: 'https://omegastrikers.wiki.gg/images/thumb/6/6e/Demolitionist.png/100px-Demolitionist.png' },
+            { awakeningID: "TD_MultiHitsReduceCooldowns", displayName: "Heavy Impact", image: 'https://omegastrikers.wiki.gg/images/thumb/9/95/HeavyImpact.png/100px-HeavyImpact.png' },
+            { awakeningID: "TD_BaseStaggerAndRegen", displayName: "Reptile Remedy", image: 'https://omegastrikers.wiki.gg/images/thumb/4/43/Clarion_Corp_Regenerator.png/100px-Clarion_Corp_Regenerator.png' },
+            { awakeningID: "TD_HitRockCooldown", displayName: "Hot Shot", image: 'https://omegastrikers.wiki.gg/images/thumb/5/53/HotShot.png/100px-HotShot.png' },
+            { awakeningID: "TD_EdgePower", displayName: "Knifes Edge", image: 'https://omegastrikers.wiki.gg/images/thumb/1/19/KnifesEdge.png/100px-KnifesEdge.png' },
+        ];
+
+        const gridContainer = document.getElementById('gridContainer');
+
+        // Dynamically generate grid items
+        awakenings.forEach(item => {
+            const gridItem = document.createElement('div');
+            gridItem.classList.add('grid-item');
+            gridItem.innerHTML = `<img src="${item.image}" title="${item.displayName}" alt="${item.displayName}">`;
+            gridItem.setAttribute("awakeningID", item.awakeningID);
+            gridItem.addEventListener('click', () => toggleItemSelection(gridItem));
+            gridContainer.appendChild(gridItem);
+        });
+
+        function toggleItemSelection(item) {
+            if(!item.classList.contains('selectedAwakening'))
+            {
+                item.classList.add('selectedAwakening');
+            }
+            else
+            {
+                item.classList.remove('selectedAwakening');
+            }
+        }
+    </script>
+
+    <script>
+        const postButton = document.getElementById('poster');
+
+        postButton.addEventListener('click', async _ => {
+
+            postButton.classList.remove("ready");
+            postButton.classList.add("waiting");
+            postButton.disabled = true;
+
+            let jwt = document.getElementById("jwt").value;
+            let refreshToken = document.getElementById("refreshToken").value;
+
+            let apiEndpoint = "https://prometheus-proxy.odysseyinteractive.gg/api/v1/custom-lobby/LOBBYIDPLACEHOLDER/game-options";
+            let requestData = '{"gameOptions":{"gameFormatId":"GFDPLACEHOLDER","mapAssetName":"GMDPLACEHOLDER","terrainAssetName":"GTDPLACEHOLDER","NumSetsToWinMatch":"NUMSETSPLACEHOLDER","StartingAwakenings":"AWAKENINGSPLACEHOLDER","NumPointsToWinSet":"NUMPOINTSPLACEHOLDER",DRAFTPLACEHOLDER,"characterSelectDuplicatesPolicy":"MIRRORSPLACEHOLDER"}}';
+
+            apiEndpoint = apiEndpoint.replace('LOBBYIDPLACEHOLDER', document.getElementById('lobbyId').value);
+            requestData = requestData.replace('GFDPLACEHOLDER', document.getElementById('mode').value);
+            requestData = requestData.replace('NUMSETSPLACEHOLDER', document.getElementById('sets').value);
+            requestData = requestData.replace('NUMPOINTSPLACEHOLDER', document.getElementById('points').value);
+            requestData = requestData.replace('MIRRORSPLACEHOLDER', document.getElementById('mirrors').value);
+            requestData = requestData.replace('DRAFTPLACEHOLDER', document.getElementById('draft').value);
+
+            requestData = requestData.replace('GMDPLACEHOLDER', maps.find(map => map.displayName == selectMap.value).GMD);
+            requestData = requestData.replace('GTDPLACEHOLDER', maps.find(map => map.displayName == selectMap.value).GTD);
+
+            let awakeningsData = "";
+            for (let child of document.getElementById('gridContainer').children) {
+                if(child.classList.contains('selectedAwakening'))
+                {
+                    awakeningsData += child.getAttribute('awakeningID') + "|";
+                }
+            }
+
+            requestData = requestData.replace('AWAKENINGSPLACEHOLDER', awakeningsData);
+
+            try {
+                const response = await fetch(apiEndpoint, {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Authorization': `Bearer ${jwt}`,
+                        'X-Refresh-Token': refreshToken
+                    },
+                    body: requestData,
+                });
+                if (response.status == 200) {
+                    postButton.classList.remove("waiting");
+                    postButton.classList.add("finished");
+
+                    setTimeout(buttonCooldown, 3000);
+                }
+                else {
+                    postButton.classList.remove("waiting");
+                    postButton.classList.remove("ready");
+                    postButton.classList.remove("finished");
+                    postButton.classList.add("unready");
+                    postButton.textContent = "ERROR, REFRESH THE PAGE";
+                }
+
+            } catch (err) {
+                console.error(`Error: ${err}`);
+            }
+        });
+
+        function buttonCooldown() {
+            postButton.classList.add("ready");
+            postButton.classList.remove("finished");
+            postButton.disabled = false;
+        }
+    </script>
+
+    <!-- Handle Identity.json file input -->
+    <script>
+        {
+            let choosefile = document.getElementById("choosefile");
+            let fileinput = document.getElementById("fileinput");
+
+            choosefile.onclick = () => {
+                fileinput.click();
+            };
+
+            fileinput.addEventListener("change", function (e) {
+                let file = e.target.files[0];
+                choosefile.innerHTML = file.name;
+
+                let reader = new FileReader();
+                reader.readAsText(file);
+                reader.onload = () => {
+                    extractAuth(reader.result);
+                };
+            });
+
+            function dragEnterHandler(e) {
+                e.preventDefault();
+            }
+            function dragOverHandler(e) {
+                e.preventDefault();
+            }
+            function dragLeaveHandler(e) {
+                e.preventDefault();
+            }
+
+            function dropHandler(e) {
+                e.preventDefault();
+
+                let file = e.dataTransfer.files[0];
+                if (file.name.includes('.json')) {
+                    choosefile.innerHTML = file.name;
+
+                    let reader = new FileReader();
+                    reader.readAsText(file);
+                    reader.onload = () => {
+                        extractAuth(reader.result);
+                    };
+                }
+            }
+
+            function extractAuth(result) {
+                if (result.includes('accessTokens')) {
+                    choosefile.classList.add("finished");
+                    choosefile.classList.remove("unready");
+                    choosefile.classList.remove("ready");
+
+                    let jwt = getStringBetween(result, '"jwt":"', '","re');
+                    let refreshToken = getStringBetween(result, '"refreshToken":"', '"},"or');
+
+                    document.getElementById("jwt").value = jwt;
+                    document.getElementById("refreshToken").value = refreshToken;
+
+                    authenticate();
+                }
+                else {
+                    choosefile.innerHTML = "invalid file";
+                    choosefile.classList.add("unready");
+                    choosefile.classList.remove("ready");
+                }
+            }
+
+            function getStringBetween(str, start, end) {
+                const result = str.match(new RegExp(start + "(.*)" + end));
+
+                return result[1];
+            }
+        }
+    </script>
+
+    <!-- Handle OmegaStrikers.log file input -->
+    <script>
+        {
+            let choosefile = document.getElementById("choosefile2");
+            let fileinput = document.getElementById("fileinput2");
+
+            choosefile.onclick = () => {
+                fileinput.click();
+            };
+
+            fileinput.addEventListener("change", function (e) {
+                let file = e.target.files[0];
+                choosefile.innerHTML = file.name;
+
+                let reader = new FileReader();
+                reader.readAsText(file);
+                reader.onload = () => {
+                    extractLobbyId(reader.result);
+                };
+            });
+
+            function dragEnterHandler2(e) {
+                e.preventDefault();
+            }
+            function dragOverHandler2(e) {
+                e.preventDefault();
+            }
+            function dragLeaveHandler2(e) {
+                e.preventDefault();
+            }
+
+            function dropHandler2(e) {
+                e.preventDefault();
+
+                let file = e.dataTransfer.files[0];
+                if (file.name.includes('.log')) {
+                    choosefile.innerHTML = file.name;
+
+                    let reader = new FileReader();
+                    reader.readAsText(file);
+
+                    reader.onload = () => {
+                        extractLobbyId(reader.result);
+                    };
+
+                    reader.onerror = () => {
+                        choosefile.innerHTML = "Error, this might take several tries depending on how long your log is";
+                    };
+                }
+            }
+
+
+            function extractLobbyId(result) {
+                if (result.includes('lobbyId')) {
+                    choosefile.classList.add("finished");
+                    choosefile.classList.remove("unready");
+                    choosefile.classList.remove("ready");
+
+                    let lobbyId = getStringBetween2(result, '"lobbyId":"', '","timestamp"');
+
+                    document.getElementById("lobbyId").value = lobbyId;
+
+                    authenticate();
+                }
+                else {
+                    choosefile.innerHTML = "Error, make sure you're in a Custom Game Lobby!";
+                    choosefile.classList.add("unready");
+                    choosefile.classList.remove("ready");
+                }
+            }
+
+            function getStringBetween2(str, start, end) {
+                const regex = new RegExp(start + "(.*?)" + end, "g");
+
+                let match, lastMatch;
+                while ((match = regex.exec(str)) !== null) {
+                    lastMatch = match[1];
+                }
+
+                return lastMatch;
+            }
+        }
+    </script>
+        
+    <script>
+        function authenticate()
+        {
+            if(document.getElementById('choosefile').classList.contains('finished') && document.getElementById('choosefile2').classList.contains('finished'))
+            {
+                document.getElementById('authentication').hidden = true;
+                document.getElementById('settings').hidden = false;
+            }
+        }
+    </script>
+
+</body>
+
+</html>
