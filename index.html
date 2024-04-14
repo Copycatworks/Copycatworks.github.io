@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>753.network</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+
+    <style>
+        body {
+            background-image: linear-gradient(150deg, rgb(43, 42, 117), rgb(196, 70, 45));
+            background-position: center center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+
+            user-select: none;
+        }
+
+        #canvas {
+            position: absolute;
+            z-index: -1000;
+            margin: 0;
+            padding: 0;
+        }
+        .selectionBox {
+            border: 1px solid rgba(0, 200, 255, 0.17);
+            background: rgba(0, 200, 255, 0.17);
+            position: absolute;
+        }
+
+        iframe {
+            height: calc(100% - 33px);
+            width: 100%;
+            border: none;
+        }
+
+        .app {
+            position: absolute;
+            min-width: 100px;
+            min-height: 100px;
+            width: 100px;
+            height: 100px;
+        }
+        .app:hover {
+            position: absolute;
+            border-radius: 5px;
+            background: rgba(0, 200, 255, 0.17);
+        }
+        .app img {
+            position: absolute;
+            padding-top: 10px;
+            padding-left: 10px;
+            width: 80px;
+            height: 80px;
+        }
+        .appselect {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+            background: rgba(0, 200, 255, 0.17);
+        }
+
+        .container {
+            position: absolute;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.753);
+            border: 1px solid #000;
+            overflow: hidden;
+        }
+
+        .titlebar-icon {
+            padding-top: 6px;
+            padding-left: 6px;
+            position: absolute;
+        }
+        .titlebar-button {
+            height: 33px;
+            width: 33px;
+            color: #AAAAAA;
+            text-align: center;
+            position: absolute;
+            cursor: default;
+        }
+        .titlebar-button:hover { background-color: rgba(255,255,255, 0.1); }
+
+        .noselect {
+            pointer-events: none;
+        }
+
+        .clock {
+            position: fixed;
+            padding-right: 15px;
+            bottom: 0;
+            right: 0;
+            color: rgba(255,255,255, 0.5);
+            font-family: Droid Sans Mono;
+            font-size: 100px;
+            z-index: -999;
+        }
+    </style>
+
+</head>
+
+<body id="body" tabindex="-1" onkeypress="enterSelection()" onresize="resizeContainers(); fitAppsOnScreen();"> <!-- tabindex is necessary for focus() to work -->
+
+    <div id="canvas"></div>
+
+    <div id="apps">
+        <div id="VSC-app" class="app" style="width: 100px; height: 100px; top: 20px; left: 20px;" ondblclick="openApp(this)">
+            <div class="appselect" hidden></div>
+            <img class="noselect" src="images/VSC_app.png">
+        </div>
+        <div id="firefox-app" class="app" style="width: 100px; height: 100px; top: 140px; left: 20px;" ondblclick="openApp(this)">
+            <div class="appselect" hidden></div>
+            <img class="noselect" src="images/firefox_app.png">
+        </div>
+        <div id="thunderstore-app" class="app" style="width: 100px; height: 100px; top: 260px; left: 20px;" ondblclick="openApp(this)">
+            <div class="appselect" hidden></div>
+            <img class="noselect" src="images/thunderstore_app.png">
+        </div>
+        <div id="paint-app" class="app" style="width: 100px; height: 100px; top: 380px; left: 20px;" ondblclick="openApp(this)">
+            <div class="appselect" hidden></div>
+            <img class="noselect" src="images/paint_app.png">
+        </div>
+    </div>
+
+    <div id="containers">
+
+        <!-- PRE-EXISTING CONTAINERS -->
+
+        <div id="firefox-container" class="container" style="top: calc(50% + 200px); left: calc(50% - 300px); width: 600px; height: 193px; z-index: 3; border: 1px solid #000; background-color: white; min-width: 470px; min-height: 193px; resize: both;">
+            <span onclick="buttonResize(this)" style="padding-top: 4px; height: 29px; right:33px; font-size: 18px;" class="titlebar-button">◰</span>
+            <span onclick="buttonClose(this)" style="right:0px; font-size: 28px;" class="titlebar-button">&times;</span>
+            <div id="firefox-bar" style="height: 33px; cursor: move; background-color: #263859; color: #fff;"><img class="titlebar-icon noselect" src="images/firefox_icon.png"></div>
+
+            <iframe class="iframe" src="startup.html"></iframe>
+        </div>
+
+        <div id="thunderstore-container" class="container" style="top: calc(50% - 400px); left: calc(50% - 420px); width: 840px; height: 570px; z-index: 2; background-color: #1E1E1E; min-width: 840px; min-height: 570px; resize: both;">
+            <span onclick="buttonResize(this)" style="padding-top: 4px; height: 29px; right:33px; font-size: 18px;" class="titlebar-button">◰</span>
+            <span onclick="buttonClose(this)" style="right:0px; font-size: 28px;" class="titlebar-button">&times;</span>
+            <div id="thunderstore-bar" style="height: 33px; cursor: move; background-color: #303030; color: #fff;"><img class="titlebar-icon noselect" src="images/thunderstore_icon.png"></div>
+
+            <iframe class="iframe" src="thunderstore.html"></iframe>
+        </div>
+
+        <!-- TEMPLATE CONTAINERS -->
+
+        <template id="VSC">
+        <div id="VSC-container" class="container" style="top: calc(50% - 260px); left: calc(50% - 400px); width: 800px; height: 500px; z-index: 2; background-color: #1E1E1E; min-width: 770px; min-height: 490px; resize: both;">
+            <span onclick="buttonResize(this)" style="padding-top: 4px; height: 29px; right:33px; font-size: 18px;" class="titlebar-button">◰</span>
+            <span onclick="buttonClose(this)" style="right:0px; font-size: 28px;" class="titlebar-button">&times;</span>
+            <div id="VSC-bar" style="height: 33px; cursor: move; background-color: #3C3C3C; color: #fff;"><img class="titlebar-icon noselect" src="images/VSC_icon.png"></div>
+
+            <iframe class="iframe" src="visual-studio.html"></iframe>
+        </div>
+        </template>
+
+        <template id="firefox">
+        <div id="firefox-container" class="container" style="top: calc(50% - 150px); left: calc(50% - 300px); width: 600px; height: 193px; z-index: 3; border: 1px solid #000; background-color: white; min-width: 470px; min-height: 193px; resize: both;">
+            <span onclick="buttonResize(this)" style="padding-top: 4px; height: 29px; right:33px; font-size: 18px;" class="titlebar-button">◰</span>
+            <span onclick="buttonClose(this)" style="right:0px; font-size: 28px;" class="titlebar-button">&times;</span>
+            <div id="firefox-bar" style="height: 33px; cursor: move; background-color: #263859; color: #fff;"><img class="titlebar-icon noselect" src="images/firefox_icon.png"></div>
+
+            <iframe class="iframe" src="startup.html"></iframe>
+        </div>
+        </template>
+
+        <template id="paint">
+        <div id="paint-container" class="container" style="top: calc(50% - 210px); left: calc(50% - 250px); width: 500px; height: 407px; z-index: 1; border: 1px solid #000; background-color: white; min-width: 450px; min-height: 407px; resize: both;">
+            <span onclick="buttonResize(this)" style="padding-top: 4px; height: 29px; right:33px; font-size: 18px;" class="titlebar-button">◰</span>
+            <span onclick="buttonClose(this)" style="right:0px; font-size: 28px;" class="titlebar-button">&times;</span>
+            <div id="paint-bar" style="height: 33px; cursor: move; background-color: #316d96; color: #fff;"><img class="titlebar-icon noselect" src="images/paint_icon.png"></div>
+
+            <iframe class="iframe" src="paint.html"></iframe>
+        </div>
+        </template>
+
+        <template id="thunderstore">
+        <div id="thunderstore-container" class="container" style="top: calc(50% - 300px); left: calc(50% - 420px); width: 840px; height: 570px; z-index: 2; background-color: #1E1E1E; min-width: 840px; min-height: 570px; resize: both;">
+            <span onclick="buttonResize(this)" style="padding-top: 4px; height: 29px; right:33px; font-size: 18px;" class="titlebar-button">◰</span>
+            <span onclick="buttonClose(this)" style="right:0px; font-size: 28px;" class="titlebar-button">&times;</span>
+            <div id="thunderstore-bar" style="height: 33px; cursor: move; background-color: #303030; color: #fff;"><img class="titlebar-icon noselect" src="images/thunderstore_icon.png"></div>
+
+            <iframe class="iframe" src="thunderstore.html"></iframe>
+        </div>
+        </template>
+
+        <!-- DYNAMICALLY GENERATED CONTAINERS -->
+    </div>
+
+    <div id="clock" class="clock noselect"></div>
+
+    <script>
+        // Firefox has a bug with onLoad when Ctrl-F5 hard refreshing
+        window.addEventListener('DOMContentLoaded', (event) => {
+            resizeContainers();
+        });
+
+        window.onmousedown = function()
+        {
+            document.getElementById("body").focus();
+            var underMouse = document.querySelectorAll(':hover');
+            if(underMouse.length > 2 && underMouse[2].className == "container")
+            {
+                focusContainer(underMouse[2]);
+            }
+
+            var containers = document.getElementsByClassName("iframe");
+            for (var i = 0; i < containers.length; i++)
+            {
+                containers[i].classList.add("noselect"); // make it so you can't interact with containers
+            }
+        }
+
+        window.onmouseup = function()
+        {
+            fitContainersOnScreen();
+
+            var containers = document.getElementsByClassName("iframe");
+            for (var i = 0; i < containers.length; i++)
+            {
+                containers[i].classList.remove("noselect"); // make it so you can interact with containers again
+            }
+        }
+
+        function resizeContainers()
+        {
+            var canvas = document.getElementById("canvas"); // fullscreen canvas
+            canvas.style.width = (window.innerWidth+5).toString()+"px";
+            canvas.style.height = (window.innerHeight+5).toString()+"px";
+
+            fitContainersOnScreen();
+        }
+
+        function fitContainersOnScreen()
+        {
+            var containers = document.getElementsByClassName("container");
+            
+            for (var i = 0; i < containers.length; i++)
+            {
+                // Explicitly redefine the properties of the containers so we have proper access to them
+                containers[i].style.height = window.getComputedStyle(containers[i]).height;
+                containers[i].style.width = window.getComputedStyle(containers[i]).width;
+                containers[i].style.top = window.getComputedStyle(containers[i]).top;
+                containers[i].style.left = window.getComputedStyle(containers[i]).left;
+                containers[i].style.zIndex = window.getComputedStyle(containers[i]).zIndex;
+
+                if(parseInt(containers[i].style.height) > window.innerHeight)
+                {
+                    containers[i].style.height = window.innerHeight + "px";
+                }
+                if(parseInt(containers[i].style.width) > window.innerWidth)
+                {
+                    containers[i].style.width = window.innerWidth + "px";
+                }
+                if(parseInt(containers[i].style.top) > (window.innerHeight - parseInt(containers[i].style.height)))
+                {
+                    containers[i].style.top = window.innerHeight-parseInt(containers[i].style.height) + "px";
+                }
+                if(parseInt(containers[i].style.left) > (window.innerWidth - parseInt(containers[i].style.width)))
+                {
+                    containers[i].style.left = window.innerWidth-parseInt(containers[i].style.width) + "px";
+                }
+                if(parseInt(containers[i].style.top) < 0)
+                {
+                    containers[i].style.top = "0px";
+                }
+                if(parseInt(containers[i].style.left) < 0)
+                {
+                    containers[i].style.left = "0px";
+                }
+            }
+        }
+    </script>
+
+    <script>
+        var lastActiveElement = null;
+        setInterval(function()
+        {
+            if(document.activeElement !== lastActiveElement)
+            { 
+                lastActiveElement = document.activeElement;
+
+                if(document.activeElement.parentElement.style.zIndex == "") { return; } // skip the body, it isn't a container
+
+                focusContainer(document.activeElement.parentElement);
+            }  
+        }, 50);
+
+        function buttonResize(e)
+        {   
+            var container = e.parentElement;
+            container.style.height = "";
+            container.style.width = "";
+
+            fitContainersOnScreen();
+        }
+        function buttonClose(e)
+        {
+            var container = e.parentElement;
+            container.remove();
+        }
+
+        var zMax = 9;
+        function focusContainer(container)
+        {
+            zMax++;
+            container.style.zIndex = zMax;
+        }
+    </script>
+
+    <script>
+        var containers = document.getElementsByClassName("container");
+        for (var i = 0; i < containers.length; i++)
+        {
+            containerMove(containers[i]);
+        }
+
+        function containerMove(container)
+        {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            container.children[2].onmousedown = moveStart; // The third child is the window bar
+            
+            container.onmousedown = mouseFocus;
+            function mouseFocus(e)
+            {
+                focusContainer(container);
+            }
+
+            function moveStart(e)
+            {
+                e = e || window.event;
+                e.preventDefault();
+
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+
+                document.onmouseup = moveStop;
+                document.onmousemove = moveMouse;
+            }
+
+            function moveMouse(e)
+            {
+                e = e || window.event;
+                e.preventDefault();
+
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+
+                container.style.top = (container.offsetTop - pos2) + "px";
+                container.style.left = (container.offsetLeft - pos1) + "px";
+            }
+
+            function moveStop()
+            {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+    </script>
+
+    <!-- Scripts for Opening and Moving Apps -->
+
+    <script>
+        var apps = document.getElementsByClassName("app");
+        for (var i = 0; i < apps.length; i++)
+        {
+            appMove(apps[i]);
+        }
+
+        var appSelectionCount = 0;
+        
+        function appMove(app)
+        {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            app.onmousedown = moveStart;
+
+            var moved = 0;
+
+            function moveStart(e)
+            {
+                if(e.detail == 2)
+                {
+                    return; // stop doing normal mouse down events if two clicks are detected, otherwise Chromium won't detect double clicks
+                }
+                
+                document.getElementById("apps").append(app);
+
+                // If we select an app that isn't selected yet, remove the selection for all the others
+                if(app.firstElementChild.hidden == true)
+                {
+                    var apps = document.getElementsByClassName("app");
+                    for (var i = 0; i < apps.length; i++)
+                    {
+                        apps[i].firstElementChild.hidden = true;
+                    }
+                    appSelectionCount = 0;
+                }
+
+                app.firstElementChild.hidden = false;
+                appSelectionCount++;
+
+                e = e || window.event;
+                e.preventDefault();
+
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+
+                document.onmouseup = moveStop;
+                document.onmousemove = moveMouse;
+            }
+
+            function moveMouse(e)
+            {
+                e = e || window.event;
+                e.preventDefault();
+
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+
+                var apps = document.getElementsByClassName("app");
+                for (var i = 0; i < apps.length; i++)
+                {
+                    if(apps[i].firstElementChild.hidden !== true)
+                    {
+                        apps[i].style.top = (apps[i].offsetTop - pos2) + "px";
+                        apps[i].style.left = (apps[i].offsetLeft - pos1) + "px";
+                    }
+                }
+
+                moved = 1;
+            }
+
+            function moveStop()
+            {
+                if(moved == 1)
+                {
+                    fitAppsOnScreen();
+                    moved = 0;
+                }
+                else
+                {
+                    var apps = document.getElementsByClassName("app");
+                    for (var i = 0; i < apps.length; i++)
+                    {
+                        apps[i].firstElementChild.hidden = true;
+                    }
+                    appSelectionCount = 0;
+
+                    app.firstElementChild.hidden = false;
+                    appSelectionCount++;
+                }
+
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+
+        function fitAppsOnScreen()
+        {
+            var apps = document.getElementsByClassName("app");
+
+            for (var i = 0; i < apps.length; i++)
+            {
+                if(parseInt(apps[i].style.height) > window.innerHeight)
+                {
+                    apps[i].style.height = window.innerHeight + "px";
+                }
+                if(parseInt(apps[i].style.width) > window.innerWidth)
+                {
+                    apps[i].style.width = window.innerWidth + "px";
+                }
+                if(parseInt(apps[i].style.top) > (window.innerHeight - 100))
+                {
+                    apps[i].style.top = window.innerHeight-100 + "px";
+                }
+                if(parseInt(apps[i].style.left) > (window.innerWidth - 100))
+                {
+                    apps[i].style.left = window.innerWidth-100 + "px";
+                }
+                if(parseInt(apps[i].style.top) < 0)
+                {
+                    apps[i].style.top = "0px";
+                }
+                if(parseInt(apps[i].style.left) < 0)
+                {
+                    apps[i].style.left = "0px";
+                }
+            }
+        }
+
+        function openApp(app)
+        {
+            var apps = document.getElementsByClassName("app");
+            for (var i = 0; i < apps.length; i++)
+            {
+                apps[i].firstElementChild.hidden = true;
+            }
+            appSelectionCount = 0;
+            
+            var appName = app.id.split("-")[0];
+            var containerNode = document.getElementById(appName).content.cloneNode(true);
+            var containers = document.getElementById("containers");
+
+            containers.append(containerNode);
+
+            focusContainer(containers.lastElementChild); // focus the new container
+            containerMove(containers.lastElementChild); // enable container drag events
+
+            // find the last container of that type so you can place the new container near it
+            for (var i = containers.children.length-2; i >= 0; i--)
+            {
+                if(containers.children[i].id == appName+"-container")
+                {
+                    containers.lastElementChild.style.left = (parseInt(containers.children[i].style.left) + 10) + "px";
+                    containers.lastElementChild.style.top = (parseInt(containers.children[i].style.top) + 10) + "px";
+                    break;
+                }
+            }
+
+            fitContainersOnScreen();
+        }
+    </script>
+
+    <!-- Scripts for the Desktop Selection Rectangle -->
+
+    <script>
+        desktopSelect(document.getElementById("canvas"));
+
+        function desktopSelect(desktop)
+        {
+            document.getElementById(desktop.id).onmousedown = selectionStart;
+
+            var mouse = {
+                x: 0,
+                y: 0,
+                startX: 0,
+                startY: 0
+            };
+            var element = null;
+
+            function selectionStart(e)
+            {
+                if(document.getElementById("selectionBox"))
+                {
+                    document.getElementById("selectionBox").remove();
+                }
+
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+                mouse.startX = e.clientX;
+                mouse.startY = e.clientY;
+
+                var containers = document.getElementsByClassName("container");
+                for (var i = 0; i < containers.length; i++)
+                {
+                    containers[i].classList.add("noselect"); // make it so you can't interact with containers
+                }
+
+                element = document.createElement('div'); // create selection box
+                element.className = 'selectionBox';
+                element.id = 'selectionBox';
+                element.style.left = mouse.x + 'px';
+                element.style.top = mouse.y + 'px';
+                canvas.appendChild(element);
+                
+                document.onmouseup = selectionStop; // handle letting go of mouse button
+                document.onmousemove = selectionMove; // handle moving mouse
+            }
+
+            function selectionMove(e) // handle moving mouse
+            {
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+
+                element.style.width = Math.abs(mouse.x - mouse.startX) + 'px';
+                element.style.height = Math.abs(mouse.y - mouse.startY) + 'px';
+                element.style.left = (mouse.x - mouse.startX < 0) ? mouse.x + 'px' : mouse.startX + 'px';
+                element.style.top = (mouse.y - mouse.startY < 0) ? mouse.y + 'px' : mouse.startY + 'px';
+
+                // Highlight box selected apps
+                var apps = document.getElementsByClassName("app");
+                for (var i = 0; i < apps.length; i++)
+                {
+                    var rect1 = apps[i].getBoundingClientRect();
+                    var rect2 = element.getBoundingClientRect();
+                    // if the selection rectangle doesn't touch the app hide the appselect
+                    if (rect1.top > rect2.bottom || rect1.right < rect2.left || rect1.bottom < rect2.top || rect1.left > rect2.right)
+                    {
+                        apps[i].firstElementChild.hidden = true;
+                    }
+                    else // otherwise show the appselect
+                    {
+                        apps[i].firstElementChild.hidden = false;
+                    }
+                }
+            }
+
+            function selectionStop() // handle letting go of mouse button
+            {
+                // Highlight box selected apps
+                appSelectionCount = 0;
+                var apps = document.getElementsByClassName("app");
+                for (var i = 0; i < apps.length; i++)
+                {
+                    var rect1 = apps[i].getBoundingClientRect();
+                    var rect2 = element.getBoundingClientRect();
+                    // if the selection rectangle doesn't touch the app hide the appselect
+                    if (rect1.top > rect2.bottom || rect1.right < rect2.left || rect1.bottom < rect2.top || rect1.left > rect2.right)
+                    {
+                        apps[i].firstElementChild.hidden = true;
+                    }
+                    else // otherwise show the appselect
+                    {
+                        apps[i].firstElementChild.hidden = false;
+                        appSelectionCount++;
+                    }
+                }
+
+                var containers = document.getElementsByClassName("container");
+                for (var i = 0; i < containers.length; i++)
+                {
+                    containers[i].classList.remove("noselect"); // make it so you can interact with containers again
+                }
+
+                document.onmouseup = null;
+                document.onmousemove = null;
+                if(document.getElementById("selectionBox"))
+                {
+                    document.getElementById("selectionBox").remove();
+                }
+            }
+        }
+
+        function enterSelection() // handle hitting enter while apps are selected
+        {
+            var apps = document.getElementsByClassName("app");
+            var selectedApps = [];
+            for (var i = 0; i < apps.length; i++)
+            {
+                if(apps[i].firstElementChild.hidden !== true)
+                {
+                    selectedApps[i] = 1;
+                }
+                else
+                {
+                    selectedApps[i] = 0;
+                }
+            }
+            for (var i = 0; i < apps.length; i++)
+            {
+                if(selectedApps[i] == 1) { openApp(apps[i]); }
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+        function GetClock()
+        {
+            var date = new Date();
+            var hours = date.getHours(); 
+            var minutes = date.getMinutes();
+            if(minutes <= 9)
+            {
+                minutes = "0" + minutes;
+            }
+            if(hours <= 9)
+            {
+                hours = "0" + hours;
+            }
+
+            var time = "" + hours + ":" + minutes + "";
+            document.getElementById('clock').innerHTML = time;
+        }
+
+        GetClock();
+        setInterval(GetClock,1000);
+    </script>
+
+</body>
+
+</html>
