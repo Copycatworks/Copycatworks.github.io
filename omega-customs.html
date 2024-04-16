@@ -163,20 +163,25 @@
     <div class="container" style="padding:10px;">
 
         <div class="centerpoint">
-        <div id="titleHeader" style="font-size:32px; color:#0a2176;"><b>OMEGA STRIKERS CUSTOM GAME MODDER</b></div>
+            <div id="titleHeader" style="font-size:32px; color:#0a2176;"><b>OMEGA STRIKERS CUSTOM GAME MODDER</b></div>
         </div>
-        <hr style="color:#bcbec4; margin:5px; margin-top: 10px;"></hr>
+        <hr style="color:#bcbec4; margin:5px; margin-top: 10px;">
+        </hr>
 
         <div id="authentication" style="margin:15px;">
 
             <div class="centerpoint">
-            <div style="font-size:20px; width:560px; text-align:center; word-wrap:normal; color:#34394b; margin-bottom:10px;">Launch Omega Strikers on this computer, create a custom game lobby, then provide the required files to continue.</div>
+                <div
+                    style="font-size:20px; width:560px; text-align:center; word-wrap:normal; color:#34394b; margin-bottom:10px;">
+                    Launch Omega Strikers on this computer, create a custom game lobby, then provide the required files
+                    to continue.</div>
             </div>
 
             <div style="padding:5px">
-            <div style="font-size:26px;"><b>Files can be found here:</b></div>
-            <div id="fileLocation" style="font-size:22px;">%USERPROFILE%\AppData\Local\OmegaStrikers</div>
-            <div id="fileLocation2" style="font-size:22px;">%USERPROFILE%\AppData\Local\OmegaStrikers\Saved\Logs</div>
+                <div style="font-size:26px;"><b>Files can be found here:</b></div>
+                <div id="fileLocation" style="font-size:22px;">%USERPROFILE%\AppData\Local\OmegaStrikers</div>
+                <div id="fileLocation2" style="font-size:22px;">%USERPROFILE%\AppData\Local\OmegaStrikers\Saved\Logs
+                </div>
             </div>
 
             <div class="dropbox" ondragenter="dragEnterHandler(event);" ondragover="dragOverHandler(event);"
@@ -207,12 +212,13 @@
 
         <div id="settings" style="margin:15px;" hidden>
             <div class="centerpoint">
-                <button id="poster" style="font-size:32px; margin-bottom:10px;" class="ready">APPLY LOBBY SETTINGS</button>
+                <button id="poster" style="font-size:32px; margin-bottom:10px;" class="ready">APPLY LOBBY
+                    SETTINGS</button>
                 <div style="font-size:32px; color:#0a2176;"><b>MAP & GAME MODE</b></div>
 
                 <div>
                     <select style="width:280px; text-align:center;" name="map" id="map">
-                    <!-- populated by script -->
+                        <!-- populated by script -->
                     </select>
 
                     <select style="width:280px; text-align:center;" name="mode" id="mode">
@@ -224,10 +230,16 @@
                 </div>
 
                 <div style="display:flex; background-color:#e1e3ea; border-style:solid; border-color:#bcbec4;">
-                    <div style="font-size:26px; color:#0a2176; align-self:center; margin-bottom:1px; margin-left:5px;"><b>SETS TO WIN MATCH:</b></div>
-                    <input type="text" maxlength="3" style="width:55px; margin-left: 10px; margin-right:10px; border-radius:0px; text-align:center;" id="sets" placeholder="3" value="3">
-                    <div style="font-size:26px; color:#0a2176; align-self:center; margin-bottom:1px; "><b>GOALS PER SET:</b></div>
-                    <input type="text" maxlength="3" style="width:55px; margin-left: 10px; border-radius:0px; text-align:center;" id="points" placeholder="3" value="3">
+                    <div style="font-size:26px; color:#0a2176; align-self:center; margin-bottom:1px; margin-left:5px;">
+                        <b>SETS TO WIN MATCH:</b></div>
+                    <input type="text" maxlength="3"
+                        style="width:55px; margin-left: 10px; margin-right:10px; border-radius:0px; text-align:center;"
+                        id="sets" placeholder="3" value="3">
+                    <div style="font-size:26px; color:#0a2176; align-self:center; margin-bottom:1px; "><b>GOALS PER
+                            SET:</b></div>
+                    <input type="text" maxlength="3"
+                        style="width:55px; margin-left: 10px; border-radius:0px; text-align:center;" id="points"
+                        placeholder="3" value="3">
                 </div>
 
                 <div style="font-size:32px; color:#0a2176; margin-top:10px;"><b>DRAFT SETTINGS</b></div>
@@ -238,23 +250,28 @@
                         <option value="AllowDuplicates">FULL DUPLICATES</option>
                     </select>
                     <select style="width:280px; text-align:center;" name="draft" id="draft">
-                        <option value='"characterSelectionMode":"TeamPick","bansEnabled":"Enabled"'>CLASSIC DRAFT & BANS</option>
-                        <option value='"characterSelectionMode":"TeamPick","bansEnabled":"Disabled"'>CLASSIC DRAFT & NO BANS</option>
-                        <option value='"characterSelectionMode":"SnakeDraft","bansEnabled":"Enabled"'>SNAKE DRAFT & BANS</option>
-                        <option value='"characterSelectionMode":"SnakeDraft","bansEnabled":"Disabled"'>SNAKE DRAFT & NO BANS</option>
+                        <option value='"characterSelectionMode":"TeamPick","bansEnabled":"Enabled"'>CLASSIC DRAFT & BANS
+                        </option>
+                        <option value='"characterSelectionMode":"TeamPick","bansEnabled":"Disabled"'>CLASSIC DRAFT & NO
+                            BANS</option>
+                        <option value='"characterSelectionMode":"SnakeDraft","bansEnabled":"Enabled"'>SNAKE DRAFT & BANS
+                        </option>
+                        <option value='"characterSelectionMode":"SnakeDraft","bansEnabled":"Disabled"'>SNAKE DRAFT & NO
+                            BANS</option>
                     </select>
                 </div>
 
-                <div id="startingAwakeningsHeader" style="font-size:32px; color:#0a2176; margin-bottom:5px;"><b>STARTING AWAKENINGS</b> (CHOOSE AT START)</div>
+                <div id="startingAwakeningsHeader" style="font-size:32px; color:#0a2176; margin-bottom:5px;"><b>STARTING
+                        AWAKENINGS</b> (CHOOSE AT START)</div>
                 <div class="grid-container" id="gridContainer">
-                <!-- populated by script -->
+                    <!-- populated by script -->
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-         const maps = [
+        const maps = [
             { GMD: "GMD_AhtenCity", GTD: "GTD_AhtenCity", displayName: "AHTEN CITY", image: '' },
             { GMD: "GMD_AtlasLab", GTD: "GTD_Lab", displayName: "ATLAS'S LAB", image: '' },
             { GMD: "GMD_DigitalWorld", GTD: "GTD_DigitalWorld", displayName: "AI.MI'S APP", image: '' },
@@ -287,18 +304,15 @@
 
         const selectMode = document.getElementById('mode');
 
-        selectMode.addEventListener("change", function() {
+        selectMode.addEventListener("change", function () {
             const startingAwakeningsHeader = document.getElementById("startingAwakeningsHeader");
-            if(this.value == "GFD_Ranked")
-            {
+            if (this.value == "GFD_Ranked") {
                 startingAwakeningsHeader.innerHTML = "<b>STARTING AWAKENINGS</b> (CHOOSE AT START)";
             }
-            else if(this.value == "GFD_QuickPlay" || this.value == "GFD_RGM")
-            {
+            else if (this.value == "GFD_QuickPlay" || this.value == "GFD_RGM") {
                 startingAwakeningsHeader.innerHTML = "<b>STARTING AWAKENINGS</b> (GIVEN TO EVERYONE AT START)";
             }
-            else if(this.value == "GFD_Practice")
-            {
+            else if (this.value == "GFD_Practice") {
                 startingAwakeningsHeader.innerHTML = "<b>STARTING AWAKENINGS</b> (DOES NOT APPLY TO PRACTICE)";
             }
         });
@@ -315,7 +329,7 @@
             { awakeningID: "TD_PrimaryEcho", displayName: "Primetime", image: 'https://omegastrikers.wiki.gg/images/thumb/b/b1/PrimeTime.png/100px-PrimeTime.png' },
             { awakeningID: "TD_KOKing", displayName: "Prize Fighter", image: 'https://omegastrikers.wiki.gg/images/thumb/2/2f/PrizeFighter.png/100px-PrizeFighter.png' },
             { awakeningID: "TD_StrikeCooldownReduction", displayName: "Quick Strikes", image: 'https://omegastrikers.wiki.gg/images/thumb/3/33/QuickStrike.png/100px-QuickStrike.png' },
-            { awakeningID: "TD_Reverberation", displayName: "Reverberation", image: 'https://omegastrikers.wiki.gg/images/thumb/a/a4/Reverberation.png/100px-Reverberation.png' },
+            { awakeningID: "TD_StaggerCooldownRateConversion", displayName: "Reverberation", image: 'https://omegastrikers.wiki.gg/images/thumb/a/a4/Reverberation.png/100px-Reverberation.png' },
             { awakeningID: "TD_HitsIncreaseSpeedAndPower", displayName: "Stacks on Stacks", image: 'https://omegastrikers.wiki.gg/images/thumb/2/27/StacksOnStacks.png/100px-StacksOnStacks.png' },
             { awakeningID: "TD_HitEnemyBurnThem", displayName: "Stinger", image: 'https://omegastrikers.wiki.gg/images/thumb/b/b6/Stinger.png/100px-Stinger.png' },
             { awakeningID: "TD_StrikeRockTowardsAllies", displayName: "Team Player", image: 'https://omegastrikers.wiki.gg/images/thumb/c/c9/Team_Player.png/100px-Team_Player.png' },
@@ -372,12 +386,10 @@
         });
 
         function toggleItemSelection(item) {
-            if(!item.classList.contains('selectedAwakening'))
-            {
+            if (!item.classList.contains('selectedAwakening')) {
                 item.classList.add('selectedAwakening');
             }
-            else
-            {
+            else {
                 item.classList.remove('selectedAwakening');
             }
         }
@@ -410,8 +422,7 @@
 
             let awakeningsData = "";
             for (let child of document.getElementById('gridContainer').children) {
-                if(child.classList.contains('selectedAwakening'))
-                {
+                if (child.classList.contains('selectedAwakening')) {
                     awakeningsData += child.getAttribute('awakeningID') + "|";
                 }
             }
@@ -612,12 +623,10 @@
             }
         }
     </script>
-        
+
     <script>
-        function authenticate()
-        {
-            if(document.getElementById('choosefile').classList.contains('finished') && document.getElementById('choosefile2').classList.contains('finished'))
-            {
+        function authenticate() {
+            if (document.getElementById('choosefile').classList.contains('finished') && document.getElementById('choosefile2').classList.contains('finished')) {
                 document.getElementById('authentication').hidden = true;
                 document.getElementById('settings').hidden = false;
             }
