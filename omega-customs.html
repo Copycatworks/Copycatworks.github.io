@@ -126,6 +126,27 @@
             background-color: #13abec;
         }
 
+        .grid-item.desaturate {
+            filter: grayscale(100%);
+        }
+
+        .grid-item.desaturate {
+            filter: grayscale(100%);
+        }
+
+        @keyframes hueShift {
+            0% {
+                backdrop-filter: hue-rotate(0deg);
+            }
+            100% {
+                backdrop-filter: hue-rotate(360deg);
+            }
+        }
+
+        .rainbow {
+            animation: hueShift 2s linear 4;
+        }
+
         .grid-item img {
             width: 100%;
             height: 100%;
@@ -247,12 +268,12 @@
                     <select style="width:280px; text-align:center;" name="mirrors" id="mirrors">
                         <option value="NoDuplicatesInGame">NO MIRRORS</option>
                         <option value="NoDuplicatesOnTeam">MIRRORS</option>
-                        <option value="AllowDuplicates">FULL DUPLICATES</option>
+                        <option value="AllowDuplicates" selected>FULL DUPLICATES</option>
                     </select>
                     <select style="width:280px; text-align:center;" name="draft" id="draft">
                         <option value='"characterSelectionMode":"TeamPick","bansEnabled":"Enabled"'>CLASSIC DRAFT & BANS
                         </option>
-                        <option value='"characterSelectionMode":"TeamPick","bansEnabled":"Disabled"'>CLASSIC DRAFT & NO
+                        <option value='"characterSelectionMode":"TeamPick","bansEnabled":"Disabled"' selected>CLASSIC DRAFT & NO
                             BANS</option>
                         <option value='"characterSelectionMode":"SnakeDraft","bansEnabled":"Enabled"'>SNAKE DRAFT & BANS
                         </option>
@@ -371,26 +392,81 @@
             { awakeningID: "TD_BaseStaggerAndRegen", displayName: "Reptile Remedy", image: 'https://omegastrikers.wiki.gg/images/thumb/4/43/Clarion_Corp_Regenerator.png/100px-Clarion_Corp_Regenerator.png' },
             { awakeningID: "TD_HitRockCooldown", displayName: "Hot Shot", image: 'https://omegastrikers.wiki.gg/images/thumb/5/53/HotShot.png/100px-HotShot.png' },
             { awakeningID: "TD_EdgePower", displayName: "Knifes Edge", image: 'https://omegastrikers.wiki.gg/images/thumb/1/19/KnifesEdge.png/100px-KnifesEdge.png' },
+            
+            { awakeningID: "TD_KnockAnythingRecoverStagger", displayName: "Vicious Vambrace", image: 'https://omegastrikers.wiki.gg/images/thumb/d/d9/ViciousVambrace.png/100px-ViciousVambrace.png', hide: true }
         ];
 
         const gridContainer = document.getElementById('gridContainer');
 
         // Dynamically generate grid items
         awakenings.forEach(item => {
-            const gridItem = document.createElement('div');
-            gridItem.classList.add('grid-item');
-            gridItem.innerHTML = `<img src="${item.image}" title="${item.displayName}" alt="${item.displayName}">`;
-            gridItem.setAttribute("awakeningID", item.awakeningID);
-            gridItem.addEventListener('click', () => toggleItemSelection(gridItem));
-            gridContainer.appendChild(gridItem);
+            if(!item.hide)
+            {
+                const gridItem = document.createElement('div');
+                gridItem.classList.add('grid-item');
+                gridItem.innerHTML = `<img src="${item.image}" title="${item.displayName}" alt="${item.displayName}">`;
+                gridItem.setAttribute("awakeningID", item.awakeningID);
+                gridItem.addEventListener('click', () => toggleItemSelection(gridItem));
+                gridContainer.appendChild(gridItem);
+            }
         });
+
+        var numSelected = 0;
+        var maxSelections = 8;
+
+        // Konami Code Controller
+        if ( window.addEventListener ) {  
+            var state = 0, konami = [38,38,40,40,37,39,37,39,66,65];  
+            window.addEventListener("keydown", function(e) {  
+                if ( e.keyCode == konami[state] ) state++;  
+                else state = 0;  
+                if ( state == 10 )
+                {
+                    maxSelections = 999;
+                    
+                    awakenings.forEach(item => {
+                        if(item.hide)
+                        {
+                            const gridItem = document.createElement('div');
+                            gridItem.classList.add('grid-item');
+                            gridItem.innerHTML = `<img src="${item.image}" title="${item.displayName}" alt="${item.displayName}">`;
+                            gridItem.setAttribute("awakeningID", item.awakeningID);
+                            gridItem.addEventListener('click', () => toggleItemSelection(gridItem));
+                            gridContainer.appendChild(gridItem);
+                        }
+                    });
+
+                    for (let child of document.getElementById('gridContainer').children) {
+                        child.classList.remove('desaturate');
+                        child.firstChild.classList.add('rainbow');
+                    }
+                }
+            }, true);  
+        }  
 
         function toggleItemSelection(item) {
             if (!item.classList.contains('selectedAwakening')) {
-                item.classList.add('selectedAwakening');
+                if(numSelected < maxSelections)
+                {
+                    item.classList.add('selectedAwakening');
+                    numSelected++;
+                }
+                if(numSelected == maxSelections)
+                {
+                    for (let child of document.getElementById('gridContainer').children) {
+                        if (!child.classList.contains('selectedAwakening')) {
+                            child.classList.add('desaturate');
+                        }
+                    }
+                }
             }
             else {
                 item.classList.remove('selectedAwakening');
+                numSelected--;
+
+                for (let child of document.getElementById('gridContainer').children) {
+                    child.classList.remove('desaturate');
+                }
             }
         }
     </script>
