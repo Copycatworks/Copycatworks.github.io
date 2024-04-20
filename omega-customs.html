@@ -138,6 +138,7 @@
             0% {
                 backdrop-filter: hue-rotate(0deg);
             }
+
             100% {
                 backdrop-filter: hue-rotate(360deg);
             }
@@ -233,8 +234,10 @@
 
         <div id="settings" style="margin:15px;" hidden>
             <div class="centerpoint">
-                <button id="poster" style="font-size:32px; margin-bottom:10px;" class="ready">APPLY LOBBY
-                    SETTINGS</button>
+                <button id="poster" style="font-size:32px; margin-bottom:10px;" class="ready">APPLY LOBBY SETTINGS</button>
+
+                <button id="export" style="font-size:16px; margin-bottom:10px;" title="Copies a shareable URL with your settings to your clipboard" class="ready">EXPORT TO CLIPBOARD</button>
+
                 <div style="font-size:32px; color:#0a2176;"><b>MAP & GAME MODE</b></div>
 
                 <div>
@@ -252,7 +255,8 @@
 
                 <div style="display:flex; background-color:#e1e3ea; border-style:solid; border-color:#bcbec4;">
                     <div style="font-size:26px; color:#0a2176; align-self:center; margin-bottom:1px; margin-left:5px;">
-                        <b>SETS TO WIN MATCH:</b></div>
+                        <b>SETS TO WIN MATCH:</b>
+                    </div>
                     <input type="text" maxlength="3"
                         style="width:55px; margin-left: 10px; margin-right:10px; border-radius:0px; text-align:center;"
                         id="sets" placeholder="3" value="3">
@@ -273,7 +277,8 @@
                     <select style="width:280px; text-align:center;" name="draft" id="draft">
                         <option value='"characterSelectionMode":"TeamPick","bansEnabled":"Enabled"'>CLASSIC DRAFT & BANS
                         </option>
-                        <option value='"characterSelectionMode":"TeamPick","bansEnabled":"Disabled"' selected>CLASSIC DRAFT & NO
+                        <option value='"characterSelectionMode":"TeamPick","bansEnabled":"Disabled"' selected>CLASSIC
+                            DRAFT & NO
                             BANS</option>
                         <option value='"characterSelectionMode":"SnakeDraft","bansEnabled":"Enabled"'>SNAKE DRAFT & BANS
                         </option>
@@ -290,6 +295,8 @@
             </div>
         </div>
     </div>
+
+    
 
     <script>
         const maps = [
@@ -339,120 +346,125 @@
         });
 
         const awakenings = [
-            { awakeningID: "TD_CreationSizeLifeTime", displayName: "Timeless Creator", image: 'https://omegastrikers.wiki.gg/images/thumb/4/4b/TimelessCreator.png/100px-TimelessCreator.png' },
-            { awakeningID: "TD_ShrinkSelfGrowAllies", displayName: "Among Titans", image: 'https://omegastrikers.wiki.gg/images/thumb/7/7b/Among_Titans.png/100px-Among_Titans.png' },
-            { awakeningID: "TD_StaggerPowerConversion", displayName: "Bulk Up", image: 'https://omegastrikers.wiki.gg/images/thumb/9/9a/BulkUp.png/100px-BulkUp.png' },
-            { awakeningID: "TD_Revive", displayName: "Recovery Drone", image: 'https://omegastrikers.wiki.gg/images/thumb/0/0d/Recovery_Drone.png/100px-Recovery_Drone.png' },
-            { awakeningID: "TD_StackingSize", displayName: "Rampage", image: 'https://omegastrikers.wiki.gg/images/thumb/e/e4/Rampage.png/100px-Rampage.png' },
-            { awakeningID: "TD_SizePowerConversion", displayName: "Might of the Colossus", image: 'https://omegastrikers.wiki.gg/images/thumb/9/95/Might_Of_The_Colossus.png/100px-Might_Of_The_Colossus.png' },
-            { awakeningID: "TD_ComboATarget", displayName: "One-Two-Punch", image: 'https://omegastrikers.wiki.gg/images/thumb/7/7b/OneTwoPunch.png/100px-OneTwoPunch.png' },
-            { awakeningID: "TD_StaggerSpeedConversion", displayName: "Peak Performance", image: 'https://omegastrikers.wiki.gg/images/thumb/9/98/Peak_Performance.png/100px-Peak_Performance.png' },
-            { awakeningID: "TD_PrimaryEcho", displayName: "Primetime", image: 'https://omegastrikers.wiki.gg/images/thumb/b/b1/PrimeTime.png/100px-PrimeTime.png' },
-            { awakeningID: "TD_KOKing", displayName: "Prize Fighter", image: 'https://omegastrikers.wiki.gg/images/thumb/2/2f/PrizeFighter.png/100px-PrizeFighter.png' },
-            { awakeningID: "TD_StrikeCooldownReduction", displayName: "Quick Strikes", image: 'https://omegastrikers.wiki.gg/images/thumb/3/33/QuickStrike.png/100px-QuickStrike.png' },
-            { awakeningID: "TD_StaggerCooldownRateConversion", displayName: "Reverberation", image: 'https://omegastrikers.wiki.gg/images/thumb/a/a4/Reverberation.png/100px-Reverberation.png' },
-            { awakeningID: "TD_HitsIncreaseSpeedAndPower", displayName: "Stacks on Stacks", image: 'https://omegastrikers.wiki.gg/images/thumb/2/27/StacksOnStacks.png/100px-StacksOnStacks.png' },
-            { awakeningID: "TD_HitEnemyBurnThem", displayName: "Stinger", image: 'https://omegastrikers.wiki.gg/images/thumb/b/b6/Stinger.png/100px-Stinger.png' },
-            { awakeningID: "TD_StrikeRockTowardsAllies", displayName: "Team Player", image: 'https://omegastrikers.wiki.gg/images/thumb/c/c9/Team_Player.png/100px-Team_Player.png' },
-            { awakeningID: "TD_ResistFirstHit", displayName: "Unstoppable", image: 'https://omegastrikers.wiki.gg/images/thumb/e/eb/Unstoppable.png/100px-Unstoppable.png' },
-            { awakeningID: "TD_EmpoweredHitsBuff", displayName: "Specialized Training", image: 'https://omegastrikers.wiki.gg/images/thumb/4/42/Specialized_Training.png/100px-Specialized_Training.png' },
-            { awakeningID: "TD_MovementAbilityCharges", displayName: "Twin Drive", image: 'https://omegastrikers.wiki.gg/images/thumb/2/2d/TwinDrive.png/100px-TwinDrive.png' },
-            { awakeningID: "TD_PrimaryAbilityCooldownReduction", displayName: "Rapid Fire", image: 'https://omegastrikers.wiki.gg/images/thumb/7/78/RapidFire.png/100px-RapidFire.png' },
-            { awakeningID: "TD_DistancePower", displayName: "Deadeye", image: 'https://omegastrikers.wiki.gg/images/thumb/0/07/DeadEye.png/100px-DeadEye.png' },
-            { awakeningID: "TD_FasterProjectiles", displayName: "Missile Propulsion", image: 'https://omegastrikers.wiki.gg/images/thumb/8/80/Missile_Propulsion.png/100px-Missile_Propulsion.png' },
-            { awakeningID: "TD_FasterProjectiles2", displayName: "Aerials", image: 'https://omegastrikers.wiki.gg/images/thumb/2/20/Aerials.png/100px-Aerials.png' },
-            { awakeningID: "TD_FasterDashes3", displayName: "Explosive Entrance", image: 'https://omegastrikers.wiki.gg/images/thumb/3/33/Explosive_Entrance.png/100px-Explosive_Entrance.png' },
-            { awakeningID: "TD_FasterDashes2", displayName: "Chronoboost", image: 'https://omegastrikers.wiki.gg/images/thumb/6/61/Chronoboost.png/100px-Chronoboost.png' },
-            { awakeningID: "TD_BuffAndDebuffDuration", displayName: "Cast to Last", image: 'https://omegastrikers.wiki.gg/images/thumb/0/00/CastToLast.png/100px-CastToLast.png' },
-            { awakeningID: "TD_FasterProjectiles3", displayName: "Siege Machine", image: 'https://omegastrikers.wiki.gg/images/thumb/1/1c/Siege_Machine.png/100px-Siege_Machine.png' },
-            { awakeningID: "TD_SpecialCooldownAfterRounds", displayName: "Extra Special", image: 'https://omegastrikers.wiki.gg/images/thumb/f/f8/ExtraSpecial.png/100px-ExtraSpecial.png' },
-            { awakeningID: "TD_CreationSize", displayName: "Monumentalist", image: 'https://omegastrikers.wiki.gg/images/thumb/3/37/Monumentalist.png/100px-Monumentalist.png' },
-            { awakeningID: "TD_TakeDownReduceCooldowns", displayName: "Adrenaline Rush", image: 'https://omegastrikers.wiki.gg/images/thumb/4/48/AdrenalineRush.png/100px-AdrenalineRush.png' },
-            { awakeningID: "TD_SizeIncrease", displayName: "Built Different", image: 'https://omegastrikers.wiki.gg/images/thumb/2/26/BuiltDifferent.png/100px-BuiltDifferent.png' },
-            { awakeningID: "TD_SizeIncrease2", displayName: "Big Fish", image: 'https://omegastrikers.wiki.gg/images/thumb/a/a9/BigFish.png/100px-BigFish.png' },
-            { awakeningID: "TD_EnergyCatalyst", displayName: "Catalyst", image: 'https://omegastrikers.wiki.gg/images/thumb/b/b2/Catalyst.png/100px-Catalyst.png' },
-            { awakeningID: "TD_EnergyConversion", displayName: "Egoist", image: 'https://omegastrikers.wiki.gg/images/thumb/5/52/Egoist.png/100px-Egoist.png' },
-            { awakeningID: "TD_HitSpeed", displayName: "Fight or Flight", image: 'https://omegastrikers.wiki.gg/images/thumb/2/2f/FightOrFlight.png/100px-FightOrFlight.png' },
-            { awakeningID: "TD_EnergyDischarge", displayName: "Fire Up", image: 'https://omegastrikers.wiki.gg/images/thumb/1/19/FireUp.png/100px-FireUp.png' },
-            { awakeningID: "TD_AvoidDamageHitHarder", displayName: "Glass Cannon", image: 'https://omegastrikers.wiki.gg/images/thumb/e/e9/GlassCannon.png/100px-GlassCannon.png' },
-            { awakeningID: "TD_EnhancedOrbsSpeed", displayName: "Orb Dancer", image: 'https://omegastrikers.wiki.gg/images/thumb/7/77/OrbDancer.png/100px-OrbDancer.png' },
-            { awakeningID: "TD_EnhancedOrbsCooldown", displayName: "Orb Ponderer", image: 'https://omegastrikers.wiki.gg/images/thumb/3/3a/OrbPonderer.png/100px-OrbPonderer.png' },
-            { awakeningID: "TD_OrbShare", displayName: "Orb Replicator", image: 'https://omegastrikers.wiki.gg/images/thumb/8/80/OrbReplicator.png/100px-OrbReplicator.png' },
-            { awakeningID: "TD_HitsReduceCooldowns", displayName: "Perfect Form", image: 'https://omegastrikers.wiki.gg/images/thumb/8/8d/PerfectForm.png/100px-PerfectForm.png' },
-            { awakeningID: "TD_BlessingSpeed", displayName: "Spark of Agility", image: 'https://omegastrikers.wiki.gg/images/thumb/7/70/SparkofAgility.png/100px-SparkofAgility.png' },
-            { awakeningID: "TD_BlessingCooldownRate", displayName: "Spark of Focus", image: 'https://omegastrikers.wiki.gg/images/thumb/c/c4/SparkofFocus.png/100px-SparkofFocus.png' },
-            { awakeningID: "TD_BlessingShare", displayName: "Spark of Leadership", image: 'https://omegastrikers.wiki.gg/images/thumb/6/60/Spark_of_Leadership.png/100px-Spark_of_Leadership.png' },
-            { awakeningID: "TD_BlessingMaxStagger", displayName: "Spark of Resilience", image: 'https://omegastrikers.wiki.gg/images/thumb/c/cc/SparkofResilience.png/100px-SparkofResilience.png' },
-            { awakeningID: "TD_BlessingPower", displayName: "Spark of Strength", image: 'https://omegastrikers.wiki.gg/images/thumb/d/d2/SparkofStrength.png/100px-SparkofStrength.png' },
-            { awakeningID: "TD_IncreasedSpeedWithStagger", displayName: "Stagger Swagger", image: 'https://omegastrikers.wiki.gg/images/thumb/0/04/StaggerSwagger.png/100px-StaggerSwagger.png' },
-            { awakeningID: "TD_FasterDashes", displayName: "Super Surge", image: 'https://omegastrikers.wiki.gg/images/thumb/8/81/SuperSurge.png/100px-SuperSurge.png' },
-            { awakeningID: "TD_HitAnythingRestoreStagger", displayName: "Tempo Swing", image: 'https://omegastrikers.wiki.gg/images/thumb/1/17/TempoSwings.png/100px-TempoSwings.png' },
-            { awakeningID: "TD_BarrierBuff", displayName: "Demolitionist", image: 'https://omegastrikers.wiki.gg/images/thumb/6/6e/Demolitionist.png/100px-Demolitionist.png' },
-            { awakeningID: "TD_MultiHitsReduceCooldowns", displayName: "Heavy Impact", image: 'https://omegastrikers.wiki.gg/images/thumb/9/95/HeavyImpact.png/100px-HeavyImpact.png' },
-            { awakeningID: "TD_BaseStaggerAndRegen", displayName: "Reptile Remedy", image: 'https://omegastrikers.wiki.gg/images/thumb/4/43/Clarion_Corp_Regenerator.png/100px-Clarion_Corp_Regenerator.png' },
-            { awakeningID: "TD_HitRockCooldown", displayName: "Hot Shot", image: 'https://omegastrikers.wiki.gg/images/thumb/5/53/HotShot.png/100px-HotShot.png' },
-            { awakeningID: "TD_EdgePower", displayName: "Knifes Edge", image: 'https://omegastrikers.wiki.gg/images/thumb/1/19/KnifesEdge.png/100px-KnifesEdge.png' },
+            { awakeningCode: "a0", awakeningID: "TD_BlessingShare", displayName: "Spark of Leadership", image: 'https://omegastrikers.wiki.gg/images/thumb/6/60/Spark_of_Leadership.png/100px-Spark_of_Leadership.png' },
+            { awakeningCode: "a1", awakeningID: "TD_BlessingPower", displayName: "Spark of Strength", image: 'https://omegastrikers.wiki.gg/images/thumb/d/d2/SparkofStrength.png/100px-SparkofStrength.png' },
+            { awakeningCode: "a2", awakeningID: "TD_BlessingCooldownRate", displayName: "Spark of Focus", image: 'https://omegastrikers.wiki.gg/images/thumb/c/c4/SparkofFocus.png/100px-SparkofFocus.png' },
+            { awakeningCode: "a3", awakeningID: "TD_BlessingSpeed", displayName: "Spark of Agility", image: 'https://omegastrikers.wiki.gg/images/thumb/7/70/SparkofAgility.png/100px-SparkofAgility.png' },
+            { awakeningCode: "a4", awakeningID: "TD_BlessingMaxStagger", displayName: "Spark of Resilience", image: 'https://omegastrikers.wiki.gg/images/thumb/c/cc/SparkofResilience.png/100px-SparkofResilience.png' },
+
+            { awakeningCode: "b0", awakeningID: "TD_SizeIncrease", displayName: "Built Different", image: 'https://omegastrikers.wiki.gg/images/thumb/2/26/BuiltDifferent.png/100px-BuiltDifferent.png' },
+            { awakeningCode: "b1", awakeningID: "TD_SizeIncrease2", displayName: "Big Fish", image: 'https://omegastrikers.wiki.gg/images/thumb/a/a9/BigFish.png/100px-BigFish.png' },
+            { awakeningCode: "b2", awakeningID: "TD_Revive", displayName: "Recovery Drone", image: 'https://omegastrikers.wiki.gg/images/thumb/0/0d/Recovery_Drone.png/100px-Recovery_Drone.png' },
+            { awakeningCode: "b3", awakeningID: "TD_StackingSize", displayName: "Rampage", image: 'https://omegastrikers.wiki.gg/images/thumb/e/e4/Rampage.png/100px-Rampage.png' },
+            { awakeningCode: "b4", awakeningID: "TD_SizePowerConversion", displayName: "Might of the Colossus", image: 'https://omegastrikers.wiki.gg/images/thumb/9/95/Might_Of_The_Colossus.png/100px-Might_Of_The_Colossus.png' },
+            { awakeningCode: "b5", awakeningID: "TD_BarrierBuff", displayName: "Demolitionist", image: 'https://omegastrikers.wiki.gg/images/thumb/6/6e/Demolitionist.png/100px-Demolitionist.png' },
+
+            { awakeningCode: "c0", awakeningID: "TD_StaggerPowerConversion", displayName: "Bulk Up", image: 'https://omegastrikers.wiki.gg/images/thumb/9/9a/BulkUp.png/100px-BulkUp.png' },
+            { awakeningCode: "c1", awakeningID: "TD_StaggerCooldownRateConversion", displayName: "Reverberation", image: 'https://omegastrikers.wiki.gg/images/thumb/a/a4/Reverberation.png/100px-Reverberation.png' },
+            { awakeningCode: "c2", awakeningID: "TD_StaggerSpeedConversion", displayName: "Peak Performance", image: 'https://omegastrikers.wiki.gg/images/thumb/9/98/Peak_Performance.png/100px-Peak_Performance.png' },
+
+            { awakeningCode: "d0", awakeningID: "TD_CreationSize", displayName: "Monumentalist", image: 'https://omegastrikers.wiki.gg/images/thumb/3/37/Monumentalist.png/100px-Monumentalist.png' },
+            { awakeningCode: "d1", awakeningID: "TD_CreationSizeLifeTime", displayName: "Timeless Creator", image: 'https://omegastrikers.wiki.gg/images/thumb/4/4b/TimelessCreator.png/100px-TimelessCreator.png' },
+            { awakeningCode: "d2", awakeningID: "TD_FasterProjectiles3", displayName: "Siege Machine", image: 'https://omegastrikers.wiki.gg/images/thumb/1/1c/Siege_Machine.png/100px-Siege_Machine.png' },
+            { awakeningCode: "d3", awakeningID: "TD_BuffAndDebuffDuration", displayName: "Cast to Last", image: 'https://omegastrikers.wiki.gg/images/thumb/0/00/CastToLast.png/100px-CastToLast.png' },
+            { awakeningCode: "d4", awakeningID: "TD_FasterDashes2", displayName: "Chronoboost", image: 'https://omegastrikers.wiki.gg/images/thumb/6/61/Chronoboost.png/100px-Chronoboost.png' },
+
+            { awakeningCode: "e0", awakeningID: "TD_SpecialCooldownAfterRounds", displayName: "Extra Special", image: 'https://omegastrikers.wiki.gg/images/thumb/f/f8/ExtraSpecial.png/100px-ExtraSpecial.png' },
+            { awakeningCode: "e1", awakeningID: "TD_EmpoweredHitsBuff", displayName: "Specialized Training", image: 'https://omegastrikers.wiki.gg/images/thumb/4/42/Specialized_Training.png/100px-Specialized_Training.png' },
+
+            { awakeningCode: "f0", awakeningID: "TD_MovementAbilityCharges", displayName: "Twin Drive", image: 'https://omegastrikers.wiki.gg/images/thumb/2/2d/TwinDrive.png/100px-TwinDrive.png' },
+            { awakeningCode: "f1", awakeningID: "TD_PrimaryEcho", displayName: "Primetime", image: 'https://omegastrikers.wiki.gg/images/thumb/b/b1/PrimeTime.png/100px-PrimeTime.png' },
+
+            { awakeningCode: "g0", awakeningID: "TD_PrimaryAbilityCooldownReduction", displayName: "Rapid Fire", image: 'https://omegastrikers.wiki.gg/images/thumb/7/78/RapidFire.png/100px-RapidFire.png' },
+            { awakeningCode: "g1", awakeningID: "TD_HitsReduceCooldowns", displayName: "Perfect Form", image: 'https://omegastrikers.wiki.gg/images/thumb/8/8d/PerfectForm.png/100px-PerfectForm.png' },
+            { awakeningCode: "g2", awakeningID: "TD_HitRockCooldown", displayName: "Hot Shot", image: 'https://omegastrikers.wiki.gg/images/thumb/5/53/HotShot.png/100px-HotShot.png' },
+
+            { awakeningCode: "h0", awakeningID: "TD_ShrinkSelfGrowAllies", displayName: "Among Titans", image: 'https://omegastrikers.wiki.gg/images/thumb/7/7b/Among_Titans.png/100px-Among_Titans.png' },
+            { awakeningCode: "h1", awakeningID: "TD_StrikeRockTowardsAllies", displayName: "Team Player", image: 'https://omegastrikers.wiki.gg/images/thumb/c/c9/Team_Player.png/100px-Team_Player.png' },
+
+            { awakeningCode: "i0", awakeningID: "TD_OrbShare", displayName: "Orb Replicator", image: 'https://omegastrikers.wiki.gg/images/thumb/8/80/OrbReplicator.png/100px-OrbReplicator.png' },
+            { awakeningCode: "i1", awakeningID: "TD_EnhancedOrbsCooldown", displayName: "Orb Ponderer", image: 'https://omegastrikers.wiki.gg/images/thumb/3/3a/OrbPonderer.png/100px-OrbPonderer.png' },
+            { awakeningCode: "i2", awakeningID: "TD_EnhancedOrbsSpeed", displayName: "Orb Dancer", image: 'https://omegastrikers.wiki.gg/images/thumb/7/77/OrbDancer.png/100px-OrbDancer.png' },
+
+            { awakeningCode: "j0", awakeningID: "TD_KOKing", displayName: "Prize Fighter", image: 'https://omegastrikers.wiki.gg/images/thumb/2/2f/PrizeFighter.png/100px-PrizeFighter.png' },
+            { awakeningCode: "j1", awakeningID: "TD_TakeDownReduceCooldowns", displayName: "Adrenaline Rush", image: 'https://omegastrikers.wiki.gg/images/thumb/4/48/AdrenalineRush.png/100px-AdrenalineRush.png' },
+            { awakeningCode: "j2", awakeningID: "TD_HitEnemyBurnThem", displayName: "Stinger", image: 'https://omegastrikers.wiki.gg/images/thumb/b/b6/Stinger.png/100px-Stinger.png' },
+            { awakeningCode: "j3", awakeningID: "TD_MultiHitsReduceCooldowns", displayName: "Heavy Impact", image: 'https://omegastrikers.wiki.gg/images/thumb/9/95/HeavyImpact.png/100px-HeavyImpact.png' },
+            { awakeningCode: "j4", awakeningID: "TD_AvoidDamageHitHarder", displayName: "Glass Cannon", image: 'https://omegastrikers.wiki.gg/images/thumb/e/e9/GlassCannon.png/100px-GlassCannon.png' },
+            { awakeningCode: "j5", awakeningID: "TD_ComboATarget", displayName: "One-Two-Punch", image: 'https://omegastrikers.wiki.gg/images/thumb/7/7b/OneTwoPunch.png/100px-OneTwoPunch.png' },
+            { awakeningCode: "j6", awakeningID: "TD_DistancePower", displayName: "Deadeye", image: 'https://omegastrikers.wiki.gg/images/thumb/0/07/DeadEye.png/100px-DeadEye.png' },
             
-            { awakeningID: "TD_KnockAnythingRecoverStagger", displayName: "Vicious Vambrace", image: 'https://omegastrikers.wiki.gg/images/thumb/d/d9/ViciousVambrace.png/100px-ViciousVambrace.png', hide: true }
+            { awakeningCode: "k0", awakeningID: "TD_FasterProjectiles", displayName: "Missile Propulsion", image: 'https://omegastrikers.wiki.gg/images/thumb/8/80/Missile_Propulsion.png/100px-Missile_Propulsion.png' },
+            { awakeningCode: "k1", awakeningID: "TD_FasterProjectiles2", displayName: "Aerials", image: 'https://omegastrikers.wiki.gg/images/thumb/2/20/Aerials.png/100px-Aerials.png' },
+            { awakeningCode: "k2", awakeningID: "TD_FasterDashes3", displayName: "Explosive Entrance", image: 'https://omegastrikers.wiki.gg/images/thumb/3/33/Explosive_Entrance.png/100px-Explosive_Entrance.png' },
+            { awakeningCode: "k3", awakeningID: "TD_FasterDashes", displayName: "Super Surge", image: 'https://omegastrikers.wiki.gg/images/thumb/8/81/SuperSurge.png/100px-SuperSurge.png' },
+
+            { awakeningCode: "l0", awakeningID: "TD_EdgePower", displayName: "Knifes Edge", image: 'https://omegastrikers.wiki.gg/images/thumb/1/19/KnifesEdge.png/100px-KnifesEdge.png' },
+            { awakeningCode: "l1", awakeningID: "TD_HitSpeed", displayName: "Fight or Flight", image: 'https://omegastrikers.wiki.gg/images/thumb/2/2f/FightOrFlight.png/100px-FightOrFlight.png' },
+            { awakeningCode: "l2", awakeningID: "TD_StrikeCooldownReduction", displayName: "Quick Strikes", image: 'https://omegastrikers.wiki.gg/images/thumb/3/33/QuickStrike.png/100px-QuickStrike.png' },
+            { awakeningCode: "l3", awakeningID: "TD_HitsIncreaseSpeedAndPower", displayName: "Stacks on Stacks", image: 'https://omegastrikers.wiki.gg/images/thumb/2/27/StacksOnStacks.png/100px-StacksOnStacks.png' },
+            { awakeningCode: "l4", awakeningID: "TD_ResistFirstHit", displayName: "Unstoppable", image: 'https://omegastrikers.wiki.gg/images/thumb/e/eb/Unstoppable.png/100px-Unstoppable.png' },
+            { awakeningCode: "l5", awakeningID: "TD_IncreasedSpeedWithStagger", displayName: "Stagger Swagger", image: 'https://omegastrikers.wiki.gg/images/thumb/0/04/StaggerSwagger.png/100px-StaggerSwagger.png' },
+            { awakeningCode: "l6", awakeningID: "TD_BaseStaggerAndRegen", displayName: "Reptile Remedy", image: 'https://omegastrikers.wiki.gg/images/thumb/4/43/Clarion_Corp_Regenerator.png/100px-Clarion_Corp_Regenerator.png' },
+            { awakeningCode: "l7", awakeningID: "TD_HitAnythingRestoreStagger", displayName: "Tempo Swing", image: 'https://omegastrikers.wiki.gg/images/thumb/1/17/TempoSwings.png/100px-TempoSwings.png' },
+
+            { awakeningCode: "m0", awakeningID: "TD_EnergyCatalyst", displayName: "Catalyst", image: 'https://omegastrikers.wiki.gg/images/thumb/b/b2/Catalyst.png/100px-Catalyst.png' },
+            { awakeningCode: "m1", awakeningID: "TD_EnergyConversion", displayName: "Egoist", image: 'https://omegastrikers.wiki.gg/images/thumb/5/52/Egoist.png/100px-Egoist.png' },
+            { awakeningCode: "m2", awakeningID: "TD_EnergyDischarge", displayName: "Fire Up", image: 'https://omegastrikers.wiki.gg/images/thumb/1/19/FireUp.png/100px-FireUp.png' },
+
+            { awakeningCode: "x1", awakeningID: "TD_KnockAnythingRecoverStagger", displayName: "Vicious Vambrace", image: 'https://omegastrikers.wiki.gg/images/thumb/d/d9/ViciousVambrace.png/100px-ViciousVambrace.png', hide: true }
         ];
 
         const gridContainer = document.getElementById('gridContainer');
 
         // Dynamically generate grid items
         awakenings.forEach(item => {
-            if(!item.hide)
-            {
-                const gridItem = document.createElement('div');
-                gridItem.classList.add('grid-item');
-                gridItem.innerHTML = `<img src="${item.image}" title="${item.displayName}" alt="${item.displayName}">`;
-                gridItem.setAttribute("awakeningID", item.awakeningID);
-                gridItem.addEventListener('click', () => toggleItemSelection(gridItem));
-                gridContainer.appendChild(gridItem);
-            }
+            const gridItem = document.createElement('div');
+            gridItem.classList.add('grid-item');
+            gridItem.innerHTML = `<img src="${item.image}" title="${item.displayName}" alt="${item.displayName}">`;
+            gridItem.setAttribute("awakeningID", item.awakeningID);
+            gridItem.setAttribute("awakeningCode", item.awakeningCode);
+            gridItem.addEventListener('click', () => toggleItemSelection(gridItem));
+            gridContainer.appendChild(gridItem);
+            if(item.hide)
+                gridItem.hidden = true;
         });
 
         var numSelected = 0;
-        var maxSelections = 8;
+        var maxSelections = 9;
 
         // Konami Code Controller
-        if ( window.addEventListener ) {  
-            var state = 0, konami = [38,38,40,40,37,39,37,39,66,65];  
-            window.addEventListener("keydown", function(e) {  
-                if ( e.keyCode == konami[state] ) state++;  
-                else state = 0;  
-                if ( state == 10 )
-                {
+        if (window.addEventListener) {
+            var konamiActivated = false;
+            var coreflipAudio;
+
+            var state = 0, konami = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+            window.addEventListener("keydown", function (e) {
+                if (e.keyCode == konami[state]) state++;
+                else state = 0;
+
+                if (state == 10 && !konamiActivated) {
+                    konamiActivated = true;
                     maxSelections = 999;
-                    
-                    awakenings.forEach(item => {
-                        if(item.hide)
-                        {
-                            const gridItem = document.createElement('div');
-                            gridItem.classList.add('grid-item');
-                            gridItem.innerHTML = `<img src="${item.image}" title="${item.displayName}" alt="${item.displayName}">`;
-                            gridItem.setAttribute("awakeningID", item.awakeningID);
-                            gridItem.addEventListener('click', () => toggleItemSelection(gridItem));
-                            gridContainer.appendChild(gridItem);
-                        }
-                    });
 
                     for (let child of document.getElementById('gridContainer').children) {
+                        if(child.hidden) { child.hidden = false; }
                         child.classList.remove('desaturate');
                         child.firstChild.classList.add('rainbow');
                     }
+
+                    document.body.style.background = "radial-gradient(circle, rgba(153,143,231,1) 0%, rgba(164,138,215,1) 64%, rgba(60,169,250,1) 100%)";
                 }
-            }, true);  
-        }  
+            }, true);
+        }
 
         function toggleItemSelection(item) {
             if (!item.classList.contains('selectedAwakening')) {
-                if(numSelected < maxSelections)
-                {
+                if (numSelected < maxSelections) {
                     item.classList.add('selectedAwakening');
                     numSelected++;
                 }
-                if(numSelected == maxSelections)
-                {
+                if (numSelected == maxSelections) {
                     for (let child of document.getElementById('gridContainer').children) {
                         if (!child.classList.contains('selectedAwakening')) {
                             child.classList.add('desaturate');
@@ -464,8 +476,19 @@
                 item.classList.remove('selectedAwakening');
                 numSelected--;
 
-                for (let child of document.getElementById('gridContainer').children) {
-                    child.classList.remove('desaturate');
+                if(numSelected < maxSelections)
+                {
+                    for (let child of document.getElementById('gridContainer').children) {
+                        child.classList.remove('desaturate');
+                    }
+                }
+                else
+                {
+                    for (let child of document.getElementById('gridContainer').children) {
+                        if (!child.classList.contains('selectedAwakening')) {
+                            child.classList.add('desaturate');
+                        }
+                    }
                 }
             }
         }
@@ -539,6 +562,35 @@
             postButton.classList.remove("finished");
             postButton.disabled = false;
         }
+
+        function GetAwakeningCodes() {
+            let awakeningCodes = "";
+
+            for (let child of document.getElementById('gridContainer').children) {
+                if (child.classList.contains('selectedAwakening')) {
+                    awakeningCodes += child.getAttribute('awakeningCode');
+                }
+            }
+
+            return awakeningCodes;
+        }
+
+        const exportButton = document.getElementById('export');
+
+        exportButton.addEventListener('click', async _ => {
+            if (navigator && navigator.clipboard && navigator.clipboard.writeText)
+            {
+                let exportURL = "https://copycat.works/omega-customs" + "?"
+                + "map=" + document.getElementById('map').selectedIndex
+                + "&mode=" + document.getElementById('mode').selectedIndex
+                + "&sets=" + document.getElementById('sets').value
+                + "&points=" + document.getElementById('points').value
+                + "&mirrors=" + document.getElementById('mirrors').selectedIndex
+                + "&draft=" + document.getElementById('draft').selectedIndex
+                + "&awakenings=" + GetAwakeningCodes();
+                navigator.clipboard.writeText(exportURL);
+            }
+        });
     </script>
 
     <!-- Handle Identity.json file input -->
@@ -706,6 +758,60 @@
                 document.getElementById('authentication').hidden = true;
                 document.getElementById('settings').hidden = false;
             }
+        }
+    </script>
+
+    <script>
+        const queryString = window.location.search.substring(1);
+        const urlParams = new URLSearchParams(queryString);
+
+        if (urlParams.has('awakenings')) {
+            let awakeningCodeString = urlParams.get('awakenings');
+
+            for (let i = 0; i < awakeningCodeString.length; i += 2) {
+                const code = awakeningCodeString.substring(i, i + 2);
+                
+                for (let child of document.getElementById('gridContainer').children) {
+                    if(child.getAttribute('awakeningCode') == code)
+                    {
+                        child.hidden = false;
+                        child.classList.add('selectedAwakening');
+                        numSelected++;
+                    }
+                }
+
+                if (numSelected >= maxSelections) {
+                    for (let child of document.getElementById('gridContainer').children) {
+                        if (!child.classList.contains('selectedAwakening')) {
+                            child.classList.add('desaturate');
+                        }
+                    }
+                }
+            }
+        }
+
+        if (urlParams.has('map')) {
+            document.getElementById('map').selectedIndex = urlParams.get('map');
+        }
+
+        if (urlParams.has('mode')) {
+            document.getElementById('mode').selectedIndex = urlParams.get('mode');
+        }
+
+        if (urlParams.has('sets')) {
+            document.getElementById('sets').value = urlParams.get('sets');
+        }
+
+        if (urlParams.has('points')) {
+            document.getElementById('points').value = urlParams.get('points');
+        }
+
+        if (urlParams.has('mirrors')) {
+            document.getElementById('mirrors').selectedIndex = urlParams.get('mirrors');
+        }
+
+        if (urlParams.has('draft')) {
+            document.getElementById('draft').selectedIndex = urlParams.get('draft');
         }
     </script>
 
