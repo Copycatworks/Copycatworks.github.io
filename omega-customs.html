@@ -783,12 +783,12 @@
                         numSelected++;
                     }
                 }
+            }
 
-                if (numSelected >= maxSelections) {
-                    for (let child of document.getElementById('gridContainer').children) {
-                        if (!child.classList.contains('selectedAwakening')) {
-                            child.classList.add('desaturate');
-                        }
+            if (numSelected >= maxSelections) {
+                for (let child of document.getElementById('gridContainer').children) {
+                    if (!child.classList.contains('selectedAwakening')) {
+                        child.classList.add('desaturate');
                     }
                 }
             }
