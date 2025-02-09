@@ -181,11 +181,53 @@
             background-color: transparent;
             text-decoration: underline;
         }
+
+        .nav ul {
+            left: 0;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #464460;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        .nav li a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            font-size: 22px;
+            padding: 5px 22px;
+            text-decoration: none;
+        }
+
+        .nav li a:hover {
+            background-color: #111;
+        }
+
+        .nav .active {
+            background-color: #111;
+        }
+
+        .nav a:link {
+            color: #ffffff;
+            text-decoration: none;
+        }
     </style>
 
 </head>
 
 <body>
+
+    <div class="nav"><ul>
+        <li><a href="https://753.network/">753.network</a></li>
+        <li><a href="omega-emotes.html">Emote Mods</a></li>
+        <li><a class="active" href="omega-customs.html">Custom Games Modder</a></li>
+    </ul></div>
+
     <div class="container" style="padding:10px;">
 
         <div class="centerpoint">

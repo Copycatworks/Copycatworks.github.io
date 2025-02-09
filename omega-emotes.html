@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>OS Custom Game Modder</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+
+    <style>
+        html,
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            font-size: 30px;
+            font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            color: #1d263b;
+            background-color: #998fe7;
+            background: linear-gradient(#a48ad7, #998fe7);
+            height: 100%;
+            width: 100%;
+        }
+
+        .container {
+            background-color: #efefef;
+            border: #bac9e4;
+            border-style: solid;
+            border-width: 3px;
+            border-radius: 10px;
+        }
+
+        .flexcenter {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .flexrow {
+            display: flex;
+            flex-direction: row;
+        }
+        
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items:center;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            width: 380px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+        }
+        
+        .card:hover {
+            background-color: #b8d9f0;
+        }
+        .card a:hover {
+            text-decoration: none;
+        }
+        .card img {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            margin-right: 10px;
+            flex-shrink: 0; /* Prevents image from shrinking */
+        }
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+        .card-text {
+            font-size: 14px;
+            color: #333;
+        }
+        .card .download-icon {
+            width: 25px;
+            height: 25px;
+            margin-right: 0;
+        }
+
+        a:link {
+            color: #00639c;
+            text-decoration: none;
+        }
+
+        .nav ul {
+            left: 0;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #464460;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        .nav li a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            font-size: 22px;
+            padding: 5px 22px;
+            text-decoration: none;
+        }
+
+        .nav li a:hover {
+            background-color: #111;
+        }
+
+        .nav .active {
+            background-color: #111;
+        }
+
+        .nav a:link {
+            color: #ffffff;
+            text-decoration: none;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="nav"><ul>
+        <li><a href="https://753.network/">753.network</a></li>
+        <li><a class="active" href="omega-emotes.html">Emote Mods</a></li>
+        <li><a href="omega-customs.html">Custom Games Modder</a></li>
+    </ul></div>
+
+    <div class="container" style="padding:10px;">
+
+        <div class="flexcenter">
+            <div id="titleHeader" style="font-size:32px; color:#0a2176;"><b>OMEGA STRIKERS EMOTE MODS</b></div>
+        </div>
+        <hr style="color:#bcbec4; margin:5px; margin-top: 10px;">
+        </hr>
+
+        <div style="margin:15px;">
+
+            <div class="flexcenter">
+                <div style="font-size:20px; text-align:center; word-wrap:normal; color:#34394b; margin-bottom:10px;">
+                    All emote mods are on hotkeys and do not take up emote slots.
+                </div>
+            </div>
+
+            <div style="padding:5px; margin-bottom: 15px;">
+                <div style="font-size:26px;"><b>Put .pak files here:</b></div>
+                <div id="fileLocation" style="font-size:22px;">\steamapps\common\OmegaStrikers\OmegaStrikers\Content\Paks\</div>
+            </div>
+            
+            <div class="card-container">
+                <a href="files/OmegaStrikers-Windows_Juli-Heart-Space.pak" class="card" title="Download Juliette Heart on Spacebar">
+                    <div class="flexrow">
+                        <img src="https://omegastrikers.wiki.gg/images/thumb/4/4d/Big_Heart_Juliette_Emoticon.png/150px-Big_Heart_Juliette_Emoticon.png">
+                        <div class="card-content">
+                            <div class="card-title">Juliette Heart on Spacebar</div>
+                            <div class="card-text">OmegaStrikers-Windows_Juli-Heart-Space.pak</div>
+                        </div>
+                    </div>
+                    <img src="files/download.svg" class="download-icon">
+                </a>
+
+                <a href="files/OmegaStrikers-Windows_Gay-F8.pak" class="card" title="Download Pride F5-F8">
+                    <div class="flexrow">
+                        <img src="https://omegastrikers.wiki.gg/images/thumb/0/03/T_BlobPride-512x512.png/150px-T_BlobPride-512x512.png">
+                        <div class="card-content">
+                            <div class="card-title">Pride Blobbos on F5-F8</div>
+                            <div class="card-text">OmegaStrikers-Windows_Pride-F5-F8.pak</div>
+                        </div>
+                    </div>
+                    <img src="files/download.svg" class="download-icon">
+                </a>
+
+                <a href="files/OmegaStrikers-Windows_Thx-T.pak" class="card" title="Download Thx on T">
+                    <div class="flexrow">
+                        <img src="https://omegastrikers.wiki.gg/images/thumb/f/fe/CoreBoyTHX.png/150px-CoreBoyTHX.png">
+                        <div class="card-content">
+                            <div class="card-title">Thx on T</div>
+                            <div class="card-text">OmegaStrikers-Windows_Thx-T.pak</div>
+                        </div>
+                    </div>
+                    <img src="files/download.svg" class="download-icon">
+                </a>
+
+                <a href="files/OmegaStrikers-Windows_Juli-Luna-F3.pak" class="card" title="Download Juli & Luna F3 Expressions">
+                    <div class="flexrow">
+                        <img src="https://omegastrikers.wiki.gg/images/5/5b/Expressions.png">
+                        <div class="card-content">
+                            <div class="card-title">Juli & Luna F3 Expressions</div>
+                            <div class="card-text">OmegaStrikers-Windows_Juli-Luna-F3.pak</div>
+                        </div>
+                    </div>
+                    <img src="files/download.svg" class="download-icon">
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
