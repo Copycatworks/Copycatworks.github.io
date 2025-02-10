@@ -4,7 +4,7 @@
 
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>OS Custom Game Modder</title>
+    <title>OS Emote Mods</title>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 
     <style>
@@ -63,6 +63,9 @@
             width: 380px;
             box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
             background: #ffffff;
+        }
+        .card[hidden] {
+            display: none;
         }
         
         .card:hover {
@@ -170,7 +173,7 @@
                 <div id="fileLocation" style="font-size:22px;">\steamapps\common\OmegaStrikers\OmegaStrikers\Content\Paks\</div>
             </div>
             
-            <div class="card-container">
+            <div id="mods" class="card-container">
                 <a href="files/OmegaStrikers-Windows_Juli-Heart-Space.pak" class="card" title="Download Juliette Heart on Spacebar">
                     <div class="flexrow">
                         <img src="https://omegastrikers.wiki.gg/images/thumb/4/4d/Big_Heart_Juliette_Emoticon.png/150px-Big_Heart_Juliette_Emoticon.png">
@@ -214,10 +217,66 @@
                     </div>
                     <img src="files/download.svg" class="download-icon">
                 </a>
+
+                <a href="files/OmegaStrikers-Windows_Help-H.pak" class="card" title="Help on H">
+                    <div class="flexrow">
+                        <img src="files/OmegaStrikers_Tactics_Help.png">
+                        <div class="card-content">
+                            <div class="card-title">Help on H</div>
+                            <div class="card-text">OmegaStrikers-Windows_Help-H.pak</div>
+                        </div>
+                    </div>
+                    <img src="files/download.svg" class="download-icon">
+                </a>
+
+                <a href="files/OmegaStrikers-Windows_FallBack-B.pak" class="card" title="Download Fall Back on B">
+                    <div class="flexrow">
+                        <img src="files/OmegaStrikers_Tactics_FallBack.png">
+                        <div class="card-content">
+                            <div class="card-title">Fall Back on B</div>
+                            <div class="card-text">OmegaStrikers-Windows_FallBack-B.pak</div>
+                        </div>
+                    </div>
+                    <img src="files/download.svg" class="download-icon">
+                </a>
+
+                <a href="files/OmegaStrikers-Windows_Egg-0.pak" class="card" title="Egg on 0" hidden>
+                    <div class="flexrow">
+                        <img src="https://omegastrikers.wiki.gg/images/thumb/a/af/Blau2_Emoticon.png/150px-Blau2_Emoticon.png">
+                        <div class="card-content">
+                            <div class="card-title">Egg on 0</div>
+                            <div class="card-text">OmegaStrikers-Windows_Egg-0.pak</div>
+                        </div>
+                    </div>
+                    <img src="files/download.svg" class="download-icon">
+                </a>
             </div>
 
         </div>
     </div>
+
+    <script>
+        // Konami Code Controller
+        if (window.addEventListener) {
+            var konamiActivated = false;
+
+            var state = 0, konami = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+            window.addEventListener("keydown", function (e) {
+                if (e.keyCode == konami[state]) state++;
+                else state = 0;
+
+                if (state == 10 && !konamiActivated) {
+                    konamiActivated = true;
+
+                    for (let child of document.getElementById('mods').children) {
+                        if(child.hidden) { child.hidden = false; }
+                    }
+
+                    document.body.style.background = "radial-gradient(circle, rgba(153,143,231,1) 0%, rgba(164,138,215,1) 64%, rgba(60,169,250,1) 100%)";
+                }
+            }, true);
+        }
+    </script>
 
 </body>
 
