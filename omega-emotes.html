@@ -57,15 +57,20 @@
             flex-direction: row;
             justify-content: space-between;
             align-items:center;
+            box-sizing:border-box;
             border: 1px solid #ddd;
             border-radius: 8px;
             padding: 10px;
-            width: 380px;
+            width: 400px;
             box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
             background: #ffffff;
         }
         .card[hidden] {
             display: none;
+        }
+        .card.double {
+            grid-column:span 2;
+            width:100%;
         }
         
         .card:hover {
@@ -75,11 +80,11 @@
             text-decoration: none;
         }
         .card img {
-            width: 50px;
-            height: 50px;
+            width: 56px;
+            height: 56px;
             border-radius: 4px;
             margin-right: 10px;
-            flex-shrink: 0; /* Prevents image from shrinking */
+            flex-shrink: 0;
         }
         .card-content {
             display: flex;
@@ -158,7 +163,6 @@
             <div id="titleHeader" style="font-size:32px; color:#0a2176;"><b>OMEGA STRIKERS EMOTE MODS</b></div>
         </div>
         <hr style="color:#bcbec4; margin:5px; margin-top: 10px;">
-        </hr>
 
         <div style="margin:15px;">
 
@@ -240,6 +244,21 @@
                     <img src="files/download.svg" class="download-icon">
                 </a>
 
+                <a href="files/OmegaStrikers-Windows_ZYoshi-Pack-Z-Y-X-J-K.pak" class="card double" title="ZYoshiYoshi64 Pack">
+                    <div class="flexrow">
+                        <img src="files/T_AtlasDefend_thumbnail-512x512.png">
+                        <img src="files/T_AiMiYapping_thumbnail-512x512.png">
+                        <img src="files/T_XRead-512x512.png">
+                        <img src="files/T_AgentJuno-512x512.png">
+                        <img src="files/T_KaiChristmasExpansion-512x512.png">
+                        <div class="card-content">
+                            <div class="card-title">ZYoshiYoshi64 Pack on Z, Y, X, J, K</div>
+                            <div class="card-text">OmegaStrikers-Windows_ZYoshi-Pack-Z-Y-X-J-K.pak</div>
+                        </div>
+                    </div>
+                    <img src="files/download.svg" class="download-icon">
+                </a>
+
                 <a href="files/OmegaStrikers-Windows_Egg-0.pak" class="card" title="Egg on 0" hidden>
                     <div class="flexrow">
                         <img src="https://omegastrikers.wiki.gg/images/thumb/a/af/Blau2_Emoticon.png/150px-Blau2_Emoticon.png">
@@ -250,6 +269,7 @@
                     </div>
                     <img src="files/download.svg" class="download-icon">
                 </a>
+
             </div>
 
         </div>
